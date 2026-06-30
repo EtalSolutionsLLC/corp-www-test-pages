@@ -1,0 +1,12 @@
+{
+  "artifactSha256": "45ad949fa4184aeaed1e9976aa46e5f5984f3a5db2011bc7fa0bed23dd2f3e04",
+  "buildId": "038",
+  "buildNumber": "038",
+  "builder": "Et al Solutions LLC",
+  "builtAt": "2026-06-30T22:24:20Z",
+  "officialBuild": true,
+  "releaseVersion": "1.0.0",
+  "schemaVersion": 1,
+  "sourceCommit": "52ed64e094f707b967475b911cd09245ba161776",
+  "sourceDirty": false
+}
