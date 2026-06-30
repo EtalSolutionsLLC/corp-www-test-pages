@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.etal.solutions/collections/_system/publication-item.schema.json",
+  "title": "Portmason Collections Publication Item",
+  "allOf": [
+    { "$ref": "item-base.schema.json" },
+    {
+      "type": "object",
+      "required": ["slot", "category", "title_md", "excerpt_md", "full_article_md"],
+      "properties": {
+        "slot": { "type": "integer", "minimum": 1 },
+        "category": { "type": "string", "minLength": 1 },
+        "dateFirstDisplayed": {
+          "type": ["string", "null"],
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "The date this article was first included in a public display rotation. The rotation agent sets this once and never overwrites it."
+        },
+        "displayAfter": {
+          "type": "array",
+          "description": "Article ids that must already have dateFirstDisplayed before this article is eligible for rotation.",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9]{3}$"
+          },
+          "uniqueItems": true,
+          "default": []
+        },
+        "title_md": { "type": "string", "pattern": "\\.md$" },
+        "excerpt_md": { "type": "string", "pattern": "\\.md$" },
+        "full_article_md": { "type": "string", "pattern": "\\.md$" }
+      }
+    }
+  ]
+}

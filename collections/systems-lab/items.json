@@ -1,0 +1,190 @@
+[
+  {
+    "id": "external-signal",
+    "slug": "external-signal",
+    "status": "active",
+    "sortOrder": 10,
+    "label": "API consumption",
+    "shortTitle": "External Signal",
+    "title": "External signal, normalized.",
+    "summary": "Call a live vendor API and turn its response into a stable, useful interface.",
+    "detailSummary": "This tool calls GitHub's public status endpoint, normalizes the vendor-specific response, and presents a small contract with timing and source evidence.",
+    "badge": "Live external API",
+    "panelFile": "tools/external-signal.html",
+    "instructions": [
+      "Select Run live check.",
+      "Review the normalized provider status and response time.",
+      "Open the JSON disclosure to inspect the stable contract returned to the interface."
+    ],
+    "inputs": [
+      "A public vendor status endpoint",
+      "No visitor-entered data"
+    ],
+    "outputs": [
+      "Normalized service status",
+      "Response timing",
+      "Inspectable JSON evidence"
+    ],
+    "thumbnail": {
+      "variant": "signal",
+      "eyebrow": "LIVE SIGNAL",
+      "primary": "Operational",
+      "secondary": "githubstatus.com",
+      "metrics": [
+        "provider",
+        "state",
+        "latency"
+      ]
+    },
+    "lifecycle": {
+      "initialization": "on-open",
+      "preserveState": true
+    },
+    "demonstrates": [
+      "operations",
+      "tooling"
+    ],
+    "proof": "A live dependency can be normalized, timed, and inspected through a stable interface."
+  },
+  {
+    "id": "published-interface",
+    "slug": "published-interface",
+    "status": "active",
+    "sortOrder": 20,
+    "label": "API publication",
+    "shortTitle": "Published Interface",
+    "title": "A versioned interface, published live.",
+    "summary": "Select and call a public endpoint from a machine-readable contract.",
+    "detailSummary": "The endpoint selector is populated from the site's published contract. The same interface can resolve to static GitHub Pages JSON or an edge adapter without changing the tool.",
+    "badge": "OpenAPI 3.1",
+    "panelFile": "tools/published-interface.html",
+    "instructions": [
+      "Choose a versioned endpoint from the contract-driven selector.",
+      "Run the request.",
+      "Inspect the status, runtime mode, timing, and returned JSON."
+    ],
+    "inputs": [
+      "A route declared in /api/endpoints.json",
+      "Optional configured edge API base URL"
+    ],
+    "outputs": [
+      "HTTP response status",
+      "Resolved runtime mode",
+      "Versioned JSON payload"
+    ],
+    "thumbnail": {
+      "variant": "contract",
+      "eyebrow": "OPENAPI 3.1",
+      "primary": "GET /v1/health",
+      "secondary": "200 OK",
+      "metrics": [
+        "contract",
+        "route",
+        "payload"
+      ]
+    },
+    "lifecycle": {
+      "initialization": "on-open",
+      "preserveState": true
+    },
+    "demonstrates": [
+      "foundations",
+      "tooling"
+    ],
+    "proof": "A machine-readable contract can drive both publication and consumption."
+  },
+  {
+    "id": "local-capability-match",
+    "slug": "local-capability-match",
+    "status": "active",
+    "sortOrder": 30,
+    "label": "Local language model",
+    "shortTitle": "Local Capability Match",
+    "title": "Describe the friction. Let the browser find the fit.",
+    "summary": "Use a browser-local language model to match an operational problem to a capability.",
+    "detailSummary": "A quantized sentence-embedding model runs in the visitor's browser. The text stays on the device; the resulting vector is compared with the published capability contract.",
+    "badge": "Text stays local",
+    "panelFile": "tools/local-capability-match.html",
+    "instructions": [
+      "Describe the operational friction in plain language.",
+      "Select Run the local model.",
+      "Review the strongest capability match, confidence, and browser runtime."
+    ],
+    "inputs": [
+      "A plain-language description entered by the visitor",
+      "The site's public capability collection"
+    ],
+    "outputs": [
+      "Strongest capability match",
+      "Similarity confidence",
+      "Local runtime evidence"
+    ],
+    "thumbnail": {
+      "variant": "model",
+      "eyebrow": "LOCAL MODEL",
+      "primary": "Meaning \u2192 Match",
+      "secondary": "No text leaves device",
+      "metrics": [
+        "prompt",
+        "vector",
+        "match"
+      ]
+    },
+    "lifecycle": {
+      "initialization": "on-open",
+      "preserveState": true
+    },
+    "demonstrates": [
+      "foundations"
+    ],
+    "proof": "Portmason Collections\u2122 can support an executable workspace, not only static content."
+  },
+  {
+    "id": "page-weight-evidence",
+    "slug": "page-weight-evidence",
+    "status": "active",
+    "sortOrder": 40,
+    "label": "Performance evidence",
+    "shortTitle": "Page Weight Evidence",
+    "title": "Built to stay light\u2014and measured.",
+    "summary": "Inspect this page's transfer evidence and compare another public homepage using the same test.",
+    "detailSummary": "The tool combines browser-observed transfer data with an optional Google PageSpeed comparison, making performance claims inspectable instead of decorative.",
+    "badge": "Live browser data",
+    "panelFile": "tools/page-weight-evidence.html",
+    "instructions": [
+      "Review the data this browser observed loading for the current page.",
+      "Enter another public homepage address.",
+      "Run the same desktop PageSpeed page-weight and visual-load check against both sites."
+    ],
+    "inputs": [
+      "Current browser resource timing",
+      "An optional public homepage URL"
+    ],
+    "outputs": [
+      "Transferred bytes and file count",
+      "PageSpeed visual-load duration",
+      "Side-by-side page weight and visual-load duration",
+      "Comparison with a typical desktop homepage"
+    ],
+    "thumbnail": {
+      "variant": "performance",
+      "eyebrow": "MEASURED",
+      "primary": "Page weight",
+      "secondary": "Evidence over claims",
+      "metrics": [
+        "bytes",
+        "scripts",
+        "files"
+      ]
+    },
+    "lifecycle": {
+      "initialization": "on-open",
+      "preserveState": true
+    },
+    "demonstrates": [
+      "tooling",
+      "operations"
+    ],
+    "proof": "Operational claims can be measured and exposed as evidence in the same interface."
+  }
+]

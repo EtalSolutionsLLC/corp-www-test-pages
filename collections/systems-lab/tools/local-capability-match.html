@@ -1,0 +1,29 @@
+<article class="portmason-tool" data-lab-model-card>
+  <header class="portmason-tool-head">
+    <div>
+      <span class="portmason-tool-kicker">Live systems lab · Local language model</span>
+      <h3>Describe the friction. Let the browser find the fit.</h3>
+    </div>
+    <span class="lab-local-badge">Text stays local</span>
+  </header>
+  <div class="lab-model-layout">
+    <div class="lab-model-input">
+      <label for="lab-model-prompt">What is getting in the way?</label>
+      <textarea id="lab-model-prompt" rows="7" data-lab-model-prompt placeholder="Example: Our staff keeps copying information between three systems and nobody trusts the reports."></textarea>
+      <div class="lab-actions">
+        <button class="action action-primary" type="button" data-lab-model-run>Run the local model</button>
+        <span class="lab-model-status" data-lab-model-status>Model loads only when requested.</span>
+      </div>
+    </div>
+    <div class="lab-model-result" data-lab-model-result hidden aria-live="polite">
+      <span class="lab-panel-label">Strongest capability match</span>
+      <h4 data-lab-model-title>—</h4>
+      <p data-lab-model-summary></p>
+      <dl>
+        <div><dt>Confidence</dt><dd data-lab-model-score>—</dd></div>
+        <div><dt>Runtime</dt><dd data-lab-model-runtime>Browser</dd></div>
+        <div><dt>Processing</dt><dd>Local to this device</dd></div>
+      </dl>
+    </div>
+  </div>
+</article>

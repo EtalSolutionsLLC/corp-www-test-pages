@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "title": "Et al Systems Lab published endpoints",
+  "endpoints": [
+    {
+      "label": "GET /v1/health",
+      "route": "/v1/health",
+      "fallback": "api/v1/health.json",
+      "default": true
+    },
+    {
+      "label": "GET /v1/capabilities",
+      "route": "/v1/capabilities",
+      "fallback": "api/v1/capabilities.json"
+    },
+    {
+      "label": "GET /v1/site-build",
+      "route": "/v1/site-build",
+      "fallback": "build-info.json"
+    },
+    {
+      "label": "GET /v1/site-deployment",
+      "route": "/v1/site-deployment",
+      "fallback": "deploy-info.json"
+    },
+    {
+      "label": "GET /v1/site-artifact",
+      "route": "/v1/site-artifact",
+      "fallback": "artifact-manifest.json"
+    },
+    {
+      "label": "GET /openapi.json",
+      "route": "/openapi.json",
+      "fallback": "api/openapi.json"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "systems-lab",
+  "mode": "workspace",
+  "layout": "tile-gallery",
+  "dataFile": "items.json",
+  "styleFile": "styles.css",
+  "scriptFile": "workspace.js",
+  "sectionHref": "/#lab",
+  "defaultItem": "external-signal",
+  "labels": {
+    "open": "Open tool",
+    "close": "Close tool",
+    "instructions": "How to use it",
+    "inputs": "What you provide",
+    "outputs": "What it returns",
+    "proof": "What this proves"
+  },
+  "presentation": {
+    "theme": "dark",
+    "brand": "Portmason Platform\u2122",
+    "kicker": "Portmason Platform\u2122 \u00b7 Live systems lab",
+    "title": "The platform is the proof.",
+    "summary": "Portmason separates a system’s foundations, control surface, and operational lifecycle. The live tools below demonstrate combinations of those capabilities.",
+    "markNotice": "Portmason Platform\u2122, Portmason Operations\u2122, Portmason Foundations\u2122, Portmason Collections\u2122, and Portmason Tooling\u2122 are marks of Et al Solutions LLC.",
+    "platformModel": {
+      "relationship": "Foundations define the system. Tooling creates, validates, and controls it. Operations provisions, deploys, and runs it.",
+      "layers": [
+        {
+          "id": "foundations",
+          "name": "Portmason Foundations\u2122",
+          "label": "Foundations",
+          "role": "Build plane",
+          "summary": "Reusable structures, contracts, schemas, and project foundations.",
+          "includes": [
+            "Portmason Collections\u2122"
+          ]
+        },
+        {
+          "id": "operations",
+          "name": "Portmason Operations\u2122",
+          "label": "Operations",
+          "role": "Run plane",
+          "summary": "Provisioning, configuration, deployment, verification, and runtime adapters."
+        },
+        {
+          "id": "tooling",
+          "name": "Portmason Tooling\u2122",
+          "label": "Tooling",
+          "role": "Control plane",
+          "summary": "The pm-* command surface that creates, validates, deploys, and inspects both."
+        }
+      ]
+    },
+    "galleryKicker": "Live systems lab",
+    "gallerySummary": "Each tool demonstrates more than one Portmason capability. The labels show what the tool proves; they do not define a one-to-one product relationship."
+  },
+  "workspace": {
+    "activation": "modal",
+    "queryParameter": "lab",
+    "initialization": "on-open"
+  },
+  "regions": {
+    "section": "COLLECTION-SYSTEMS-LAB"
+  }
+}

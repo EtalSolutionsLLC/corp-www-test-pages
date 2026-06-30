@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+resolve_version_tool() {
+  local candidate=""
+
+  if [[ -n "${PORTMASON_SHARE:-}" ]]; then
+    candidate="${PORTMASON_SHARE}/pm-version"
+    if [[ -x "${candidate}" ]]; then
+      printf '%s\n' "${candidate}"
+      return 0
+    fi
+  fi
+
+  if candidate="$(command -v pm-version 2>/dev/null)" \
+      && [[ -x "${candidate}" ]]; then
+    printf '%s\n' "${candidate}"
+    return 0
+  fi
+
+  return 1
+}
+
+export IN_CONTAINER="${IN_CONTAINER:-true}"
+export MINIMAL="${MINIMAL:-1}"
+
+version_tool="$(resolve_version_tool)" || {
+  echo "ERROR: shared pm-version was not found. Set PORTMASON_SHARE or add pm-version to PATH." >&2
+  exit 1
+}
+
+exec "${version_tool}" build meta --emit-html

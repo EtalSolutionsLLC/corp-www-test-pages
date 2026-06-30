@@ -1,0 +1,90 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-legal">
+      <button
+        class="footer-build-trigger"
+        type="button"
+        data-site-build-open
+        aria-haspopup="dialog"
+        aria-controls="site-build-modal"
+      >© 2026 Et al Solutions LLC.</button>
+      <span class="footer-separator" aria-hidden="true">·</span>
+
+      <a
+        href="https://public.etal.solutions/docs/et-al-solutions-llc/et-al-solutions-llc-privacy-policy.html"
+        data-policy-modal
+      >Privacy Policy</a>
+
+      <span class="footer-separator" aria-hidden="true">·</span>
+      <a href="#cookie-preferences" id="cookie-preferences-link" data-cookie-preferences data-cc="show-preferencesModal">Cookie preferences</a>
+    </div>
+  </div>
+</footer>
+
+<dialog
+  class="site-build-modal"
+  id="site-build-modal"
+  data-site-build-modal
+  aria-labelledby="site-build-modal-title"
+>
+  <div class="site-build-modal-shell">
+    <button
+      class="modal-close-circle"
+      type="button"
+      data-site-build-close
+      aria-label="Close build information"
+    >×</button>
+    <span class="site-build-modal-kicker">About this build</span>
+    <h2 id="site-build-modal-title">A small marker for the curious.</h2>
+    <p class="site-build-modal-intro">
+      This identifies the product release, exact static build, and deployment record currently being served.
+    </p>
+
+    <section class="site-build-section" aria-labelledby="site-build-identity-title">
+      <h3 id="site-build-identity-title">Build identity</h3>
+      <dl>
+        <dt>Release</dt>
+        <dd><code data-site-release-version>Loading…</code></dd>
+        <dt>Build</dt>
+        <dd><code data-site-build-version>Loading…</code></dd>
+        <dt>Source commit</dt>
+        <dd><code data-site-build-commit>Loading…</code></dd>
+        <dt>Built at</dt>
+        <dd><time data-site-build-time>Loading…</time></dd>
+        <dt>Artifact SHA</dt>
+        <dd><code data-site-artifact-sha>Loading…</code></dd>
+      </dl>
+    </section>
+
+    <section class="site-build-section" aria-labelledby="site-deployment-title">
+      <h3 id="site-deployment-title">Deployment</h3>
+      <dl>
+        <dt>Environment</dt>
+        <dd data-site-deploy-environment>Loading…</dd>
+        <dt>Deployment ID</dt>
+        <dd><code data-site-deployment-id>Loading…</code></dd>
+        <dt>Deployed at</dt>
+        <dd><time data-site-deployed-time>Loading…</time></dd>
+        <dt>Verification</dt>
+        <dd data-site-deployment-verification>Loading…</dd>
+      </dl>
+      <p class="site-build-warning" data-site-build-warning hidden></p>
+    </section>
+
+    <section class="site-build-marks" aria-labelledby="site-build-marks-title">
+      <h3 id="site-build-marks-title">Marks</h3>
+      <p>A.I. Fusion℠ and SIMPLIFAI℠ are service marks of Et al Solutions LLC, registered with the California Secretary of State.</p>
+      <p>Portmason Platform™, Portmason Operations™, Portmason Foundations™, Portmason Collections™, and Portmason Tooling™ are marks of Et al Solutions LLC.</p>
+    </section>
+  </div>
+</dialog>
+
+<link rel="stylesheet" href="https://public.etal.solutions/assets/css/policy-modal.css">
+<link rel="stylesheet" href="/assets/css/policy-modal-overrides.css">
+<link rel="stylesheet" href="/assets/css/modal-close-system.css">
+<link rel="stylesheet" href="/assets/css/home-quick-summary.css">
+<link rel="stylesheet" href="/assets/css/site-build-info.css">
+<script src="https://public.etal.solutions/assets/js/policy-modal.js" defer></script>
+<script src="/assets/js/policy-modal-close.js" defer></script>
+<script src="/assets/js/home-quick-summary.js" defer></script>
+<script src="/assets/js/site-build-info.js" defer></script>

@@ -1,0 +1,150 @@
+/* Homepage 60-second summary modal
+   ------------------------------------------------------------
+   Keep the hero compact. The substantive summary opens in the top layer. */
+
+.home-quick-summary-launch {
+  margin-top: 18px;
+}
+
+.home-quick-summary-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 850;
+  letter-spacing: 0.01em;
+  text-align: left;
+  cursor: pointer;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.home-quick-summary-trigger span {
+  color: #8fb2ff;
+  transition: transform 160ms ease;
+}
+
+.home-quick-summary-trigger:hover,
+.home-quick-summary-trigger:focus-visible {
+  color: #ffffff;
+  outline: none;
+  transform: translateX(2px);
+}
+
+.home-quick-summary-trigger:hover span,
+.home-quick-summary-trigger:focus-visible span {
+  transform: translateX(3px);
+}
+
+.home-quick-summary-modal {
+  width: min(820px, calc(100vw - 32px));
+  max-height: min(760px, calc(100vh - 32px));
+  padding: 0;
+  border: 1px solid rgba(143, 178, 255, 0.32);
+  background:
+    radial-gradient(circle at 78% 10%, rgba(18, 59, 255, 0.18), transparent 0 34%),
+    linear-gradient(145deg, rgba(12, 29, 58, 0.98), rgba(4, 12, 25, 0.99));
+  color: #ffffff;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.58);
+}
+
+.home-quick-summary-modal::backdrop {
+  background: rgba(2, 7, 16, 0.76);
+  backdrop-filter: blur(4px);
+}
+
+.home-quick-summary-shell {
+  position: relative;
+  padding: clamp(24px, 4vw, 40px);
+}
+
+.home-quick-summary-kicker {
+  display: inline-block;
+  color: #8fb2ff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.home-quick-summary-modal h2 {
+  max-width: 620px;
+  margin: 10px 0 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.home-quick-summary-intro {
+  max-width: 70ch;
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.58;
+}
+
+.home-quick-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.home-quick-summary-grid article {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(143, 178, 255, 0.20);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.home-quick-summary-grid span {
+  display: block;
+  color: #7ff0c6;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.home-quick-summary-grid strong {
+  display: block;
+  margin-top: 12px;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.18;
+}
+
+.home-quick-summary-grid p {
+  margin: 9px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.home-quick-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.home-quick-summary-actions .action {
+  min-height: 44px;
+}
+
+@media (max-width: 680px) {
+  .home-quick-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-quick-summary-actions {
+    display: grid;
+  }
+
+  .home-quick-summary-actions .action {
+    justify-content: center;
+  }
+}

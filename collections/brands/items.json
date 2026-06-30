@@ -1,0 +1,116 @@
+[
+  {
+    "id": "simplifai",
+    "slug": "simplifai",
+    "status": "featured",
+    "label": "A.I. Training & Enablement",
+    "shortTitle": "SIMPLIFAI℠",
+    "title": "Practical A.I. education for everyday work.",
+    "subtitle": "Practical A.I. education for everyday work.",
+    "summary": "SIMPLIFAI℠ helps people and smaller businesses use A.I. with plain-language training and practical workflows.",
+    "detailSummary": "SIMPLIFAI℠ practical A.I. education that helps people use new tools with confidence.",
+    "logo": "https://public.etal.solutions/assets/simplifai/logos/SIMPLIFAI-SILVER.png",
+    "logoAlt": "SIMPLIFAI logo",
+    "primaryAction": {
+      "label": "Ask About A.I. Training",
+      "href": "mailto:info@etalsolutions.tech?subject=SIMPLIFAI%20A.I.%20Training%20Inquiry",
+      "openInNewTab": false
+    },
+    "tags": [
+      "Training",
+      "Accessible A.I.",
+      "Practical workflows"
+    ],
+    "attributes": [
+      {
+        "title": "For",
+        "body": "Individuals, teams, and smaller businesses."
+      },
+      {
+        "title": "Offers",
+        "body": "Plain-language training, prompting guidance, and useful workflows."
+      },
+      {
+        "title": "Purpose",
+        "body": "Make A.I. approachable and practical."
+      }
+    ],
+    "sortOrder": 10
+  },
+  {
+    "id": "solutions-et-al",
+    "slug": "solutions-et-al",
+    "status": "active",
+    "label": "Consulting & Practical Delivery",
+    "shortTitle": "Solutions et al",
+    "title": "Technology guidance for real operations.",
+    "subtitle": "Practical consulting and delivery support.",
+    "summary": "Clear technical direction, practical systems, and implementation support without extra ceremony.",
+    "detailSummary": "Focused support for practical technology decisions.",
+    "logo": "https://public.etal.solutions/assets/sea/logos/SEA-OFFICIAL.png",
+    "logoAlt": "Solutions et al logo",
+    "primaryAction": {
+      "label": "Discuss a Project",
+      "href": "mailto:info@etalsolutions.tech?subject=Solutions%20et%20al%20Project%20Inquiry",
+      "openInNewTab": false
+    },
+    "tags": [
+      "Consulting",
+      "Solution design",
+      "Clear handoff"
+    ],
+    "attributes": [
+      {
+        "title": "For",
+        "body": "Organizations that need clear technical direction."
+      },
+      {
+        "title": "Offers",
+        "body": "Solution design, implementation, integration, and handoff."
+      },
+      {
+        "title": "Purpose",
+        "body": "Turn operational problems into maintainable systems."
+      }
+    ],
+    "sortOrder": 20
+  },
+  {
+    "id": "25th-hour",
+    "slug": "25th-hour",
+    "status": "active",
+    "label": "Time, Focus & A.I.-Enabled Leverage",
+    "shortTitle": "25th Hour",
+    "title": "Reclaimed time, used with intention.",
+    "subtitle": "A.I. leverage for time and focus.",
+    "summary": "25th Hour explores how thoughtful automation can give back time, attention, and creative energy.",
+    "detailSummary": "Ideas for using reclaimed time with intention.",
+    "logo": "https://public.etal.solutions/assets/25th-hour/logos/25th-hour-OFFICIAL.png",
+    "logoAlt": "25th Hour logo",
+    "primaryAction": {
+      "label": "Start a Conversation",
+      "href": "mailto:info@etalsolutions.tech?subject=25th%20Hour%20Inquiry",
+      "openInNewTab": false
+    },
+    "tags": [
+      "A.I. leverage",
+      "Time reclaimed",
+      "Human-centered"
+    ],
+    "attributes": [
+      {
+        "title": "For",
+        "body": "People and teams seeking more intentional use of time."
+      },
+      {
+        "title": "Offers",
+        "body": "Practical leverage, productivity themes, and workflow guidance."
+      },
+      {
+        "title": "Purpose",
+        "body": "Keep efficiency focused on better living and better work."
+      }
+    ],
+    "sortOrder": 30
+  }
+]

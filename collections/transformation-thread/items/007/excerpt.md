@@ -1,0 +1,1 @@
+A reminder that the safest transformation plans do not begin with speed; they begin with ownership, review paths, exception handling, and clear decisions about where human judgment must remain in the loop.

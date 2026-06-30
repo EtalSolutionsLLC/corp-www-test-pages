@@ -1,0 +1,7 @@
+{
+  "api": "Et al Systems Lab API",
+  "version": "v1",
+  "status": "operational",
+  "delivery": "GitHub Pages static contract",
+  "openapi": "/api/openapi.json"
+}

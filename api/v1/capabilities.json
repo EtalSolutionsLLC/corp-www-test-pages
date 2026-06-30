@@ -1,0 +1,71 @@
+{
+  "api": "Et al Systems Lab API",
+  "version": "v1",
+  "capabilities": [
+    {
+      "id": "workflow-integration",
+      "title": "Workflow and systems integration",
+      "summary": "Connect fragmented tools, remove repeated data movement, and make operational information trustworthy.",
+      "signals": [
+        "copying data",
+        "multiple systems",
+        "manual handoffs",
+        "reports",
+        "integration",
+        "duplicate entry"
+      ]
+    },
+    {
+      "id": "ai-automation",
+      "title": "A.I. and automation enablement",
+      "summary": "Apply A.I. and automation to well-defined work with clear review, governance, and human accountability.",
+      "signals": [
+        "repetitive work",
+        "A.I.",
+        "automation",
+        "prompt",
+        "classification",
+        "document processing"
+      ]
+    },
+    {
+      "id": "software-development",
+      "title": "Practical software development",
+      "summary": "Build focused applications, dashboards, and tools around the way the organization actually works.",
+      "signals": [
+        "custom tool",
+        "dashboard",
+        "web application",
+        "software",
+        "portal",
+        "workflow app"
+      ]
+    },
+    {
+      "id": "technology-strategy",
+      "title": "Technology strategy and modernization",
+      "summary": "Clarify the decision, reduce unnecessary complexity, and sequence modernization into useful moves.",
+      "signals": [
+        "legacy system",
+        "modernization",
+        "architecture",
+        "roadmap",
+        "vendor decision",
+        "technical debt"
+      ]
+    },
+    {
+      "id": "reliability-performance",
+      "title": "Reliability and performance engineering",
+      "summary": "Improve resilience, observability, delivery confidence, and the speed of systems people depend on.",
+      "signals": [
+        "slow website",
+        "outage",
+        "performance",
+        "monitoring",
+        "deployment",
+        "reliability"
+      ]
+    }
+  ]
+}

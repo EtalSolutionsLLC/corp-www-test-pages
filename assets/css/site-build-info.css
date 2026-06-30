@@ -1,0 +1,160 @@
+.footer-build-trigger {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.footer-build-trigger:hover,
+.footer-build-trigger:focus-visible {
+  color: var(--accent-blue, #4169e1);
+}
+
+.footer-build-trigger:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.site-build-modal {
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(52rem, calc(100dvh - 2rem));
+  overflow: hidden;
+  border: 1px solid rgba(65, 105, 225, 0.32);
+  border-radius: 0.85rem;
+  padding: 0;
+  color: #e8ebf4;
+  background: #111725;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.42);
+}
+
+.site-build-modal::backdrop {
+  background: rgba(3, 7, 18, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.site-build-modal-shell {
+  position: relative;
+  max-height: min(52rem, calc(100dvh - 2rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: clamp(1.5rem, 4vw, 1.5rem);
+}
+
+.site-build-modal-kicker {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: #7df0bd;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.site-build-modal h2 {
+  margin: 0 3rem 0.75rem 0;
+  color: #ffffff;
+  font-size: clamp(1.65rem, 5vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.site-build-modal-intro {
+  margin: 0 0 1.4rem;
+  color: #b8c0d4;
+  line-height: 1.6;
+}
+
+.site-build-section {
+  margin-top: 1.15rem;
+  padding-top: 1.05rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site-build-section h3,
+.site-build-marks h3 {
+  margin: 0 0 0.8rem;
+  color: #8fb2ff;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-build-modal dl {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, auto) minmax(0, 1fr);
+  /*gap: 0.65rem 1rem;*/
+  margin: 0;
+}
+
+.site-build-modal dt {
+  color: #8f9ab3;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-build-modal dd {
+  min-width: 0;
+  margin: 0;
+  color: #f5f7ff;
+  overflow-wrap: anywhere;
+}
+
+.site-build-modal code {
+  color: inherit;
+  font-size: 0.9em;
+}
+
+.site-build-warning {
+  margin: 1rem 0 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(255, 177, 77, 0.4);
+  border-radius: 0.45rem;
+  color: #ffd8a3;
+  background: rgba(125, 70, 0, 0.18);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.site-build-warning[hidden] {
+  display: none;
+}
+
+@media (max-width: 34rem) {
+  .site-build-modal dl {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .site-build-modal dd {
+    margin-bottom: 0.7rem;
+  }
+}
+
+.site-build-modal .modal-close-circle {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 3 !important;
+  margin: 0 !important;
+}
+
+.site-build-marks {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(143, 178, 255, 0.18);
+}
+
+.site-build-marks p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}

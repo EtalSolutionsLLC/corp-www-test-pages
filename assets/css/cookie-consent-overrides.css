@@ -1,0 +1,35 @@
+.cookie-preferences-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cookie-preferences-link:hover,
+.cookie-preferences-link:focus-visible {
+  color: var(--text, #eef2ff);
+}
+
+.footer-separator {
+  color: var(--muted, #aab5d6);
+}
+
+
+/* Circular CookieConsent preferences-modal close control */
+#cc-main .pm__close-btn {
+  display: grid !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  place-items: center !important;
+  border-radius: 50% !important;
+}

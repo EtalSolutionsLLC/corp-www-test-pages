@@ -1,0 +1,32 @@
+{
+  "id": "promotions",
+  "mode": "catalog",
+  "layout": "carousel",
+  "dataFile": "items.json",
+  "styleFile": "styles.css",
+  "sectionHref": "/#promotions",
+  "defaultItem": "workflow-friction-review",
+  "labels": {
+    "itemFallback": "Promotion",
+    "heroCta": "View Details",
+    "learnMore": "Learn More",
+    "newer": "Newer offer",
+    "previous": "Previous offer",
+    "end": "End of promotions",
+    "scrollHint": "Focused offers for practical progress.",
+    "detail": "Details",
+    "summary": "Summary"
+  },
+  "regions": {
+    "heroTeaser": "COLLECTION-PROMOTIONS-HERO-TEASER",
+    "section": "COLLECTION-PROMOTIONS"
+  },
+  "presentation": {
+    "theme": "dark",
+    "kicker": "Promotions",
+    "title": "Focused promotions for practical progress.",
+    "summary": "Explore current and past offers designed to make A.I., automation, and software delivery more useful, approachable, and actionable.",
+    "contentId": "promotion-details",
+    "contentLabel": "Promotion details"
+  }
+}

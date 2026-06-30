@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.etal.solutions/collections/_system/workspace-item.schema.json",
+  "title": "Portmason Collections Workspace Item",
+  "allOf": [
+    {
+      "$ref": "item-base.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "title",
+        "summary",
+        "panelFile",
+        "instructions",
+        "inputs",
+        "outputs",
+        "thumbnail",
+        "demonstrates",
+        "proof"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shortTitle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "detailSummary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "badge": {
+          "type": "string",
+          "minLength": 1
+        },
+        "panelFile": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+\\.html$"
+        },
+        "instructions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "thumbnail": {
+          "type": "object",
+          "required": [
+            "variant",
+            "eyebrow",
+            "primary",
+            "secondary"
+          ],
+          "properties": {
+            "variant": {
+              "enum": [
+                "signal",
+                "contract",
+                "model",
+                "performance"
+              ]
+            },
+            "eyebrow": {
+              "type": "string",
+              "minLength": 1
+            },
+            "primary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "secondary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metrics": {
+              "type": "array",
+              "maxItems": 3,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "lifecycle": {
+          "type": "object",
+          "properties": {
+            "initialization": {
+              "enum": [
+                "on-open",
+                "eager"
+              ]
+            },
+            "preserveState": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "demonstrates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "foundations",
+              "operations",
+              "tooling"
+            ]
+          }
+        },
+        "proof": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  ]
+}

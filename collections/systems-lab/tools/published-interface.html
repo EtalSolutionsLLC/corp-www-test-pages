@@ -1,0 +1,31 @@
+<article class="portmason-tool" data-lab-api-card>
+  <header class="portmason-tool-head">
+    <div>
+      <span class="portmason-tool-kicker">Live systems lab · API publication</span>
+      <h3>A versioned interface, published live.</h3>
+    </div>
+    <span class="lab-contract-badge">OpenAPI 3.1</span>
+  </header>
+  <p>This interface consumes the site's public machine-readable contract. Static endpoints work on Pages; the edge adapter exposes the same contract dynamically.</p>
+  <form class="lab-api-form" data-lab-api-form>
+    <label for="lab-api-endpoint">Endpoint</label>
+    <div class="lab-api-form-row">
+      <select id="lab-api-endpoint" data-lab-api-endpoint aria-describedby="lab-api-config-note" disabled>
+        <option value="">Loading endpoint contract…</option>
+      </select>
+      <button class="action action-primary" type="submit" data-lab-api-run disabled>Run request</button>
+    </div>
+  </form>
+  <p class="lab-api-config-note" id="lab-api-config-note">Endpoint choices are loaded from <code>/api/endpoints.json</code>.</p>
+  <div class="lab-api-result" aria-live="polite">
+    <div class="lab-api-result-meta">
+      <span data-lab-api-status>Loading contract</span>
+      <span data-lab-api-time>—</span>
+      <span data-lab-api-mode>Pages contract</span>
+    </div>
+    <details class="lab-response-details lab-api-response-details">
+      <summary>Inspect response JSON</summary>
+      <pre data-lab-api-json>{}</pre>
+    </details>
+  </div>
+</article>

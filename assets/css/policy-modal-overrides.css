@@ -1,0 +1,53 @@
+.policy-modal-close-enhanced {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 3 !important;
+  display: grid !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  place-items: center !important;
+  border: 1px solid rgba(135, 177, 255, 0.52);
+  border-radius: 50% !important;
+  background: rgba(4, 15, 34, 0.92);
+  color: #ffffff;
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap !important;
+  aspect-ratio: 1 / 1 !important;
+  cursor: pointer;
+}
+
+.policy-modal-close-enhanced:hover,
+.policy-modal-close-enhanced:focus-visible {
+  background: #123bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(18, 59, 255, 0.22);
+}
+
+
+/* 008: policy modal close host and late-position guard. */
+.policy-modal-close-host {
+  position: relative !important;
+}
+
+.policy-modal-close-host .policy-modal-close-enhanced,
+.policy-modal-close-enhanced[data-policy-modal-close-enhanced] {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 50 !important;
+  margin: 0 !important;
+  transform: none !important;
+}

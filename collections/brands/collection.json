@@ -1,0 +1,33 @@
+{
+  "id": "brands",
+  "mode": "catalog",
+  "layout": "carousel",
+  "dataFile": "items.json",
+  "styleFile": "styles.css",
+  "sectionHref": "/#brands",
+  "defaultItem": "simplifai",
+  "labels": {
+    "newer": "Previous brand",
+    "previous": "Next brand",
+    "end": "End of brands",
+    "scrollHint": "Scroll sideways through brand identities.",
+    "itemFallback": "Brand",
+    "learnMore": "Start a Conversation",
+    "detail": "Details",
+    "summary": "Summary"
+  },
+  "regions": {
+    "section": "COLLECTION-BRANDS"
+  },
+  "presentation": {
+    "theme": "light",
+    "extraClasses": [
+      "brand-catalog-section"
+    ],
+    "kicker": "Brands",
+    "title": "Focused brands, one strong foundation.",
+    "summary": "Explore the core brand identities in the Et al Solutions LLC portfolio. The Transformation Thread remains a separate article and thought-leadership experience.",
+    "contentId": "brand-identities",
+    "contentLabel": "Brand identities"
+  }
+}

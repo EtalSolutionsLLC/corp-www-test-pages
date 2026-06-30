@@ -1,0 +1,1 @@
+The assumption was simple: if you could move faster than your competitors, you would eventually outperform them. Today, that assumption is becoming less true. The organizations gaining a lasting advantage aren't necessarily the ones moving the fastest. They're the ones making better decisions.

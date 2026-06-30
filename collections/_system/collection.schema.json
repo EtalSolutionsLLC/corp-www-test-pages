@@ -1,0 +1,423 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.etal.solutions/collections/_system/collection.schema.json",
+  "title": "Portmason Collections Manifest",
+  "type": "object",
+  "required": [
+    "id",
+    "mode",
+    "layout",
+    "styleFile",
+    "presentation",
+    "regions"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "mode": {
+      "enum": [
+        "catalog",
+        "publication",
+        "workspace"
+      ]
+    },
+    "layout": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dataFile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "styleFile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scriptFile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sectionHref": {
+      "type": "string",
+      "pattern": "^/#"
+    },
+    "defaultItem": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "labels": {
+      "type": "object"
+    },
+    "presentation": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "theme": {
+          "enum": [
+            "light",
+            "dark"
+          ]
+        },
+        "extraClasses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "uniqueItems": true
+        },
+        "kicker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "titleLines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contentId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "contentLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "brand": {
+          "type": "string",
+          "minLength": 1
+        },
+        "logo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "logoAlt": {
+          "type": "string"
+        },
+        "markNotice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryAction": {
+          "type": "object",
+          "required": [
+            "label",
+            "href"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "href": {
+              "type": "string",
+              "minLength": 1
+            },
+            "openInNewTab": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "platformModel": {
+          "type": "object",
+          "required": [
+            "relationship",
+            "layers"
+          ],
+          "properties": {
+            "relationship": {
+              "type": "string",
+              "minLength": 1
+            },
+            "layers": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "label",
+                  "role",
+                  "summary"
+                ],
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "foundations",
+                      "operations",
+                      "tooling"
+                    ]
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "summary": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "includes": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "galleryKicker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gallerySummary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sectionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "wrapperClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "leadClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gridClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cardClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "labelClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actionContainerClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "buttonClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "noteClass": {
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "selection": {
+      "type": "object",
+      "required": [
+        "strategy",
+        "visibleItems",
+        "timezone",
+        "outputFile"
+      ],
+      "properties": {
+        "strategy": {
+          "enum": [
+            "weekday-week-of-month"
+          ]
+        },
+        "visibleItems": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputFile": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "workspace": {
+      "type": "object",
+      "required": [
+        "activation",
+        "queryParameter",
+        "initialization"
+      ],
+      "properties": {
+        "activation": {
+          "enum": [
+            "modal"
+          ]
+        },
+        "queryParameter": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "initialization": {
+          "enum": [
+            "on-open",
+            "eager"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "regions": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "section": {
+          "type": "string",
+          "pattern": "^COLLECTION-[A-Z0-9-]+$"
+        },
+        "heroTeaser": {
+          "type": "string",
+          "pattern": "^COLLECTION-[A-Z0-9-]+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "interactive": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "catalog"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "presentation": {
+            "required": [
+              "theme",
+              "kicker",
+              "title",
+              "summary"
+            ]
+          },
+          "regions": {
+            "required": [
+              "section"
+            ]
+          }
+        },
+        "required": [
+          "dataFile"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "publication"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "selection"
+        ],
+        "properties": {
+          "presentation": {
+            "required": [
+              "brand",
+              "kicker",
+              "titleLines",
+              "summary"
+            ]
+          },
+          "regions": {
+            "required": [
+              "section"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "workspace"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "dataFile",
+          "workspace",
+          "scriptFile",
+          "defaultItem"
+        ],
+        "properties": {
+          "presentation": {
+            "required": [
+              "theme",
+              "brand",
+              "kicker",
+              "title",
+              "summary",
+              "platformModel",
+              "galleryKicker",
+              "gallerySummary",
+              "markNotice"
+            ]
+          },
+          "regions": {
+            "required": [
+              "section"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

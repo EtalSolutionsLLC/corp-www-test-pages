@@ -1,0 +1,174 @@
+[
+  {
+    "id": "workflow-friction-review",
+    "slug": "workflow-friction-review",
+    "status": "featured",
+    "label": "Featured Offer Becki_this_one's_for_you",
+    "title": "Workflow Friction Review",
+    "shortTitle": "Workflow Friction Review",
+    "subtitle": "Find the repetitive work worth simplifying before adding another tool.",
+    "audience": "Small teams and owner-led businesses",
+    "summary": "A practical review for organizations that want to reduce recurring operational friction with focused automation and clearer workflows.",
+    "price": "$495",
+    "priceNote": "fixed price",
+    "primaryAction": {
+      "label": "Book the Review",
+      "href": "https://outlook.office.com/bookwithme/user/74526c29d14348708c4b83c724b1bbc3@etal.solutions?anonymous&ismsaljsauthenabled&ep=pcard",
+      "openInNewTab": true
+    },
+    "tags": [
+      "Workflow-first",
+      "Low-disruption",
+      "Actionable",
+      "Human-led"
+    ],
+    "attributes": [
+      {
+        "title": "Focused review",
+        "body": "A practical look at repetitive tasks, handoffs, delays, and information gaps."
+      },
+      {
+        "title": "Priority map",
+        "body": "Clear guidance on what to simplify now, what to automate later, and what to leave alone."
+      },
+      {
+        "title": "Best fit",
+        "body": "Small teams and owner-led businesses that want useful improvements without a large transformation program."
+      },
+      {
+        "title": "Goal",
+        "body": "Reduce recurring friction with a short list of practical, maintainable next steps."
+      }
+    ],
+    "sortOrder": 5
+  },
+  {
+    "id": "industry-ai-fusion-assessment",
+    "slug": "industry-ai-fusion-assessment",
+    "status": "active",
+    "label": "Available Offer",
+    "title": "Industry A.I. Fusion℠ Assessment",
+    "shortTitle": "A.I. Fusion℠ Assessment",
+    "subtitle": "Find practical, low-disruption ways to apply A.I. inside a real business operation.",
+    "audience": "Small to mid-sized businesses",
+    "summary": "An A.I. Fusion℠ assessment for business owners and operators who want to identify useful A.I. opportunities without chasing hype or disrupting the way their teams already work.",
+    "price": "$750",
+    "priceNote": "fixed price",
+    "primaryAction": {
+      "label": "Book the Assessment",
+      "href": "https://outlook.office.com/bookwithme/user/74526c29d14348708c4b83c724b1bbc3@etal.solutions?anonymous&ismsaljsauthenabled&ep=pcard",
+      "openInNewTab": true
+    },
+    "tags": [
+      "Industry A.I.",
+      "Practical",
+      "Low-disruption",
+      "Operator-friendly"
+    ],
+    "attributes": [
+      {
+        "title": "Business-use review",
+        "body": "A focused review of customer service, staffing, operations, workflows, and recurring friction."
+      },
+      {
+        "title": "Opportunity map",
+        "body": "Clear recommendations for where A.I. can help now, where it may help later, and what to avoid."
+      },
+      {
+        "title": "Best fit",
+        "body": "Food service, healthcare, hospitality, manufacturing, retail, and service-based businesses."
+      },
+      {
+        "title": "Goal",
+        "body": "Identify practical A.I. use cases that improve responsiveness, accuracy, efficiency, and customer experience."
+      }
+    ],
+    "sortOrder": 10
+  },
+  {
+    "id": "ai-optimized-sdlc-assessment",
+    "slug": "ai-optimized-sdlc-assessment",
+    "status": "active",
+    "label": "Available Offer",
+    "title": "A.I.-Optimized SDLC Assessment",
+    "shortTitle": "A.I. SDLC Assessment",
+    "subtitle": "Turn scattered A.I. usage into a governed software delivery process.",
+    "audience": "Software teams",
+    "summary": "A focused assessment and design sprint for software teams that want to use A.I. across the SDLC without losing control of quality, security, or accountability.",
+    "price": "$1,200",
+    "priceNote": "fixed price",
+    "primaryAction": {
+      "label": "Book the Sprint",
+      "href": "https://outlook.office.com/bookwithme/user/74526c29d14348708c4b83c724b1bbc3@etal.solutions?anonymous&ismsaljsauthenabled&ep=pcard",
+      "openInNewTab": true
+    },
+    "tags": [
+      "Human-led",
+      "Test-driven",
+      "Governed",
+      "Verified"
+    ],
+    "attributes": [
+      {
+        "title": "12-hour sprint",
+        "body": "Current-state review, opportunity map, guardrails, and roadmap."
+      },
+      {
+        "title": "Practical outputs",
+        "body": "Use-case map, verification gates, and accountability model."
+      },
+      {
+        "title": "Best fit",
+        "body": "Small to mid-sized software teams using or evaluating A.I. tools."
+      },
+      {
+        "title": "Goal",
+        "body": "Faster delivery with stronger process, review, and confidence."
+      }
+    ],
+    "sortOrder": 20
+  },
+  {
+    "id": "what-can-ai-do-for-you",
+    "slug": "what-can-ai-do-for-you",
+    "status": "active",
+    "label": "Available Offer",
+    "title": "What Can A.I. Do for You?",
+    "shortTitle": "Everyday A.I. Session",
+    "subtitle": "A friendly, practical A.I. session for everyday people who want useful help without the jargon.",
+    "audience": "General consumers",
+    "summary": "A plain-language A.I. discovery session for people who are curious about A.I. but do not know where to start.",
+    "price": "$149",
+    "priceNote": "fixed price",
+    "primaryAction": {
+      "label": "Book the Session",
+      "href": "https://outlook.office.com/bookwithme/user/74526c29d14348708c4b83c724b1bbc3@etal.solutions?anonymous&ismsaljsauthenabled&ep=pcard",
+      "openInNewTab": true
+    },
+    "tags": [
+      "Everyday A.I.",
+      "Plain-language",
+      "Hands-on",
+      "No tech background needed"
+    ],
+    "attributes": [
+      {
+        "title": "60-minute session",
+        "body": "Friendly walkthrough, real-life examples, and simple next steps."
+      },
+      {
+        "title": "Practical uses",
+        "body": "Messages, reminders, photos, planning, writing, organizing, and tasks."
+      },
+      {
+        "title": "Best fit",
+        "body": "Consumers, families, caregivers, retirees, and non-technical users."
+      },
+      {
+        "title": "Goal",
+        "body": "Leave with a short personal A.I. plan you can actually use."
+      }
+    ],
+    "sortOrder": 40
+  }
+]

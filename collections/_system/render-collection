@@ -1,0 +1,850 @@
+#!/usr/bin/env python3
+"""Render a registered site collection region to stdout."""
+from __future__ import annotations
+
+import argparse
+import html
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+SITE_ROOT = Path.cwd().resolve()
+COLLECTIONS_ROOT = SITE_ROOT / "collections"
+
+
+def esc(value: object) -> str:
+    return html.escape(str(value or ""), quote=True)
+
+
+def load_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+INLINE_TOKEN = re.compile(r"(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))")
+
+
+def safe_href(value: str) -> str | None:
+    href = value.strip()
+    return href if href.lower().startswith(("https://", "http://", "mailto:")) else None
+
+
+def render_inline_markdown(text: str) -> str:
+    output: list[str] = []
+    cursor = 0
+    for match in INLINE_TOKEN.finditer(text):
+        output.append(html.escape(text[cursor:match.start()]))
+        token = match.group(0)
+        if token.startswith("`"):
+            output.append(f"<code>{html.escape(token[1:-1])}</code>")
+        elif token.startswith("**"):
+            output.append(f"<strong>{html.escape(token[2:-2])}</strong>")
+        elif token.startswith("*"):
+            output.append(f"<em>{html.escape(token[1:-1])}</em>")
+        else:
+            link = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", token)
+            if not link:
+                output.append(html.escape(token))
+            else:
+                label, raw_href = link.groups()
+                href = safe_href(raw_href)
+                output.append(
+                    f'<a href="{html.escape(href, quote=True)}">{html.escape(label)}</a>'
+                    if href else html.escape(label)
+                )
+        cursor = match.end()
+    output.append(html.escape(text[cursor:]))
+    return "".join(output)
+
+
+def render_markdown(text: str) -> str:
+    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    output: list[str] = []
+    paragraph: list[str] = []
+    list_type: str | None = None
+    list_items: list[str] = []
+    quote_lines: list[str] = []
+    code_lines: list[str] = []
+    in_code = False
+
+    def flush_paragraph() -> None:
+        if paragraph:
+            output.append(f"<p>{render_inline_markdown(' '.join(paragraph))}</p>")
+            paragraph.clear()
+
+    def flush_list() -> None:
+        nonlocal list_type
+        if list_type:
+            items = "".join(f"<li>{render_inline_markdown(item)}</li>" for item in list_items)
+            output.append(f"<{list_type}>{items}</{list_type}>")
+            list_items.clear()
+            list_type = None
+
+    def flush_quote() -> None:
+        if quote_lines:
+            output.append(f"<blockquote>{render_markdown(chr(10).join(quote_lines))}</blockquote>")
+            quote_lines.clear()
+
+    def flush_code() -> None:
+        if code_lines:
+            output.append(f"<pre><code>{html.escape(chr(10).join(code_lines))}</code></pre>")
+            code_lines.clear()
+
+    for line in lines:
+        if line.startswith("```"):
+            flush_paragraph()
+            flush_list()
+            flush_quote()
+            if in_code:
+                flush_code()
+            in_code = not in_code
+            continue
+        if in_code:
+            code_lines.append(line)
+            continue
+
+        quote = re.match(r"^>\s?(.*)$", line)
+        if quote:
+            flush_paragraph()
+            flush_list()
+            quote_lines.append(quote.group(1))
+            continue
+        flush_quote()
+
+        stripped = line.strip()
+        if not stripped:
+            flush_paragraph()
+            flush_list()
+            continue
+        if re.fullmatch(r"---+", stripped):
+            flush_paragraph()
+            flush_list()
+            output.append("<hr>")
+            continue
+
+        heading = re.match(r"^(#{1,6})\s+(.+)$", stripped)
+        if heading:
+            flush_paragraph()
+            flush_list()
+            tag = "h4" if len(heading.group(1)) <= 2 else "h5"
+            output.append(f"<{tag}>{render_inline_markdown(heading.group(2))}</{tag}>")
+            continue
+
+        unordered = re.match(r"^\s*[-*]\s+(.+)$", line)
+        ordered = re.match(r"^\s*\d+\.\s+(.+)$", line)
+        if unordered or ordered:
+            flush_paragraph()
+            desired = "ol" if ordered else "ul"
+            if list_type and list_type != desired:
+                flush_list()
+            list_type = desired
+            list_items.append((ordered or unordered).group(1))
+            continue
+
+        flush_list()
+        paragraph.append(stripped)
+
+    flush_paragraph()
+    flush_list()
+    flush_quote()
+    if in_code or code_lines:
+        flush_code()
+    return "\n".join(output)
+
+
+def indent_html(value: str, spaces: int) -> str:
+    prefix = " " * spaces
+    return "\n".join(prefix + line if line else line for line in value.splitlines())
+
+
+def resolve_within(root: Path, relative_path: str, label: str) -> Path:
+    candidate = (root / relative_path).resolve()
+    try:
+        candidate.relative_to(root.resolve())
+    except ValueError as exc:
+        raise ValueError(f"{label} escapes collection directory: {relative_path}") from exc
+    return candidate
+
+
+
+def render_collection_styles() -> str:
+    links = ['    <link rel="stylesheet" href="collections/_system/collection.css" />']
+    for collection_dir in sorted(
+        path for path in COLLECTIONS_ROOT.iterdir() if path.is_dir() and path.name != "_system"
+    ):
+        manifest_path = collection_dir / "collection.json"
+        if not manifest_path.is_file():
+            raise ValueError(f"Collection directory has no manifest: {collection_dir}")
+        manifest = load_json(manifest_path)
+        collection_id = collection_dir.name
+        if manifest.get("id") != collection_id:
+            raise ValueError(f"Collection id mismatch in {manifest_path}")
+        style_file = manifest.get("styleFile")
+        if not isinstance(style_file, str) or not style_file:
+            raise ValueError(f"Collection styleFile missing in {manifest_path}")
+        style_path = resolve_within(collection_dir, style_file, "styleFile")
+        if not style_path.is_file():
+            raise ValueError(f"Collection stylesheet not found: {style_path}")
+        href = style_path.relative_to(SITE_ROOT).as_posix()
+        links.append(f'    <link rel="stylesheet" href="{esc(href)}" />')
+    return "\n".join(links) + "\n"
+
+def render_collection_scripts() -> str:
+    manifests: list[tuple[Path, dict[str, Any]]] = []
+    for collection_dir in sorted(
+        path for path in COLLECTIONS_ROOT.iterdir() if path.is_dir() and path.name != "_system"
+    ):
+        manifest_path = collection_dir / "collection.json"
+        if not manifest_path.is_file():
+            raise ValueError(f"Collection directory has no manifest: {collection_dir}")
+        manifest = load_json(manifest_path)
+        if manifest.get("id") != collection_dir.name:
+            raise ValueError(f"Collection id mismatch in {manifest_path}")
+        manifests.append((collection_dir, manifest))
+
+    lines = ['<script src="collections/_system/collection.js" defer></script>']
+    profile_order = ["catalog", "publication", "workspace"]
+    active_manifests = [(collection_dir, manifest) for collection_dir, manifest in manifests if manifest.get("interactive", True) is not False]
+    if not active_manifests:
+        return ""
+
+    modes = {str(manifest.get("mode")) for _, manifest in active_manifests}
+    for mode in profile_order:
+        if mode not in modes:
+            continue
+        profile_path = COLLECTIONS_ROOT / "_system" / "profiles" / f"{mode}.js"
+        if not profile_path.is_file():
+            raise ValueError(f"Collection profile script not found: {profile_path}")
+        href = profile_path.relative_to(SITE_ROOT).as_posix()
+        lines.append(f'<script src="{esc(href)}" defer></script>')
+
+    for collection_dir, manifest in active_manifests:
+        script_file = manifest.get("scriptFile")
+        if not script_file:
+            continue
+        if not isinstance(script_file, str):
+            raise ValueError(f"Collection scriptFile must be a string: {collection_dir}")
+        script_path = resolve_within(collection_dir, script_file, "scriptFile")
+        if not script_path.is_file():
+            raise ValueError(f"Collection script not found: {script_path}")
+        href = script_path.relative_to(SITE_ROOT).as_posix()
+        lines.append(f'<script src="{esc(href)}" defer></script>')
+
+    return "\n".join(lines) + "\n"
+
+
+def collection_paths(collection_id: str) -> tuple[Path, dict[str, Any], list[dict[str, Any]]]:
+    collection_dir = (COLLECTIONS_ROOT / collection_id).resolve()
+    if collection_dir.parent != COLLECTIONS_ROOT.resolve():
+        raise ValueError(f"Invalid collection id: {collection_id}")
+    manifest_path = collection_dir / "collection.json"
+    manifest = load_json(manifest_path)
+    if manifest.get("id") != collection_id:
+        raise ValueError(f"Collection id mismatch in {manifest_path}")
+    data_file = manifest.get("dataFile")
+    if data_file is None and manifest.get("mode") == "publication":
+        return collection_dir, manifest, []
+    if not isinstance(data_file, str) or not data_file:
+        raise ValueError(f"Collection dataFile missing in {manifest_path}")
+    data_path = resolve_within(collection_dir, data_file, "dataFile")
+    items = load_json(data_path)
+    if not isinstance(items, list):
+        raise ValueError(f"Collection items must be an array: {data_path}")
+    return collection_dir, manifest, sorted(items, key=lambda item: (item.get("sortOrder", 0), str(item.get("id", ""))))
+
+
+def action_html(action: dict[str, Any] | None, css_class: str = "hero-cta") -> str:
+    if not action:
+        return ""
+    href = esc(action.get("href"))
+    label = esc(action.get("label"))
+    attrs = ""
+    if action.get("openInNewTab"):
+        attrs = ' target="_blank" rel="noopener noreferrer"'
+    return f'<a class="{css_class}" href="{href}"{attrs}>{label}</a>'
+
+
+def tags_html(tags: list[Any]) -> str:
+    if not tags:
+        return ""
+    values = "\n".join(f"              <li>{esc(tag)}</li>" for tag in tags)
+    return f'''            <ul class="catalog-tag-list" aria-label="Tags">
+{values}
+            </ul>'''
+
+
+def attributes_html(attributes: list[dict[str, Any]]) -> str:
+    if not attributes:
+        return ""
+    cards = []
+    for attribute in attributes:
+        cards.append(
+            "\n".join(
+                [
+                    '              <div class="catalog-attribute">',
+                    f'                <strong>{esc(attribute.get("title"))}</strong>',
+                    f'                <p>{esc(attribute.get("body"))}</p>',
+                    "              </div>",
+                ]
+            )
+        )
+    return '            <div class="catalog-attribute-grid">\n' + "\n".join(cards) + "\n            </div>"
+
+
+def price_html(item: dict[str, Any], indent: str = "            ") -> str:
+    price = item.get("price")
+    if not price:
+        return ""
+    note = item.get("priceNote")
+    note_html = f" <small>{esc(note)}</small>" if note else ""
+    return f'{indent}<div class="catalog-price">{esc(price)}{note_html}</div>'
+
+
+def render_catalog_item(item: dict[str, Any], default_slug: str) -> str:
+    slug = str(item.get("slug") or item.get("id") or "")
+    featured = slug == default_slug or item.get("status") == "featured"
+    item_class = "catalog-carousel-item is-featured" if featured else "catalog-carousel-item"
+    summary_class = "catalog-card catalog-panel catalog-panel-summary is-featured" if featured else "catalog-card catalog-panel catalog-panel-summary"
+    title = item.get("title") or item.get("shortTitle") or slug
+    short_title = item.get("shortTitle") or title
+    subtitle = item.get("subtitle") or ""
+    summary = item.get("summary") or ""
+    detail_summary = item.get("detailSummary") or summary
+    label = item.get("label") or ""
+    logo = item.get("logo")
+    logo_alt = item.get("logoAlt") or ""
+
+    if logo:
+        summary_header = "\n".join(
+            [
+                '            <div class="catalog-summary-brand-header">',
+                f'              <span class="catalog-badge">{esc(label)}</span>',
+                f'              <img class="catalog-summary-logo" src="{esc(logo)}" alt="{esc(logo_alt)}" />',
+                "            </div>",
+            ]
+        )
+        detail_media = f'            <img class="catalog-detail-logo" src="{esc(logo)}" alt="{esc(logo_alt)}" />'
+    else:
+        summary_header = f'            <span class="catalog-badge">{esc(label)}</span>'
+        detail_media = price_html(item)
+
+    summary_price = price_html(item)
+    tags = tags_html(item.get("tags") or [])
+    attrs = attributes_html(item.get("attributes") or [])
+    action = action_html(item.get("primaryAction"))
+    action_block = f'            <div class="catalog-actions">\n              {action}\n            </div>' if action else ""
+
+    parts = [
+        f'      <section class="{item_class}" data-collection-item data-collection-slug="{esc(slug)}" data-collection-title="{esc(short_title)}">',
+        '        <div class="catalog-item-panels">',
+        f'          <article class="{summary_class}" aria-label="{esc(title)} summary">',
+        summary_header,
+        f'            <h2>{esc(title)}</h2>',
+        f'            <p class="catalog-subtitle">{esc(subtitle)}</p>',
+        f'            <div class="catalog-summary-content">{trusted_html(item, "summary")}</div>'
+    ]
+    if summary_price:
+        parts.append(summary_price)
+    if tags:
+        parts.append(tags)
+    parts.extend(
+        [
+            "          </article>",
+            f'          <aside class="catalog-detail-panel catalog-panel catalog-panel-detail" id="{esc(slug)}-details" aria-label="{esc(title)} details">',
+            f'            <span class="catalog-badge">{esc(label)}</span>',
+            f'            <h3>{esc(short_title)}</h3>',
+            f'            <p class="catalog-subtitle">{esc(subtitle)}</p>',
+        ]
+    )
+    if detail_media:
+        parts.append(detail_media)
+    parts.append(f'            <div class="catalog-detail-summary">{trusted_html(item, "detailSummary", "summary")}</div>')
+    if attrs:
+        parts.append(attrs)
+    if action_block:
+        parts.append(action_block)
+    parts.extend(["          </aside>", "        </div>", "      </section>"])
+    return "\n".join(parts)
+
+
+def render_catalog_full(manifest: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    collection_id = str(manifest["id"])
+    labels = manifest.get("labels") or {}
+    default_slug = str(manifest.get("defaultItem") or next((item.get("slug") for item in items if item.get("status") == "featured"), items[0].get("slug", "")))
+    rendered_items = "\n".join(render_catalog_item(item, default_slug) for item in items)
+    return f'''      <section class="catalog-carousel collection collection--catalog" aria-label="{esc(collection_id.title())} collection" data-collection data-collection-id="{esc(collection_id)}" data-collection-mode="catalog" data-collection-config="/collections/{esc(collection_id)}/collection.json" data-collection-carousel data-collection-default="{esc(default_slug)}">
+
+        <div class="catalog-carousel-instructions" data-collection-nav data-newer-label="{esc(labels.get('newer', 'Previous'))}" data-previous-label="{esc(labels.get('previous', 'Next'))}" data-end-label="{esc(labels.get('end', 'End'))}" data-detail-label="{esc(labels.get('detail', 'Details'))}" data-summary-label="{esc(labels.get('summary', 'Summary'))}">
+
+          <span class="catalog-scroll-hint">{esc(labels.get('scrollHint', 'Scroll sideways through items.'))}</span>
+
+          <span data-collection-newer-slot><span class="catalog-direction-empty"></span></span>
+
+          <span data-collection-previous-slot><span class="catalog-direction-empty"></span></span>
+
+        </div>
+
+        <div class="catalog-carousel-track" data-collection-track>
+{rendered_items}
+        </div>
+
+      </section>
+'''
+
+
+
+def visible_catalog_items(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    hidden_statuses = {"hidden", "draft", "archived", "retired"}
+    return [item for item in items if str(item.get("status", "")).lower() not in hidden_statuses]
+
+
+def render_card_grid_section(manifest: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    collection_id = str(manifest["id"])
+    presentation = manifest.get("presentation") or {}
+    section_id = str(presentation.get("sectionId") or collection_id)
+    wrapper_class = str(presentation.get("wrapperClass") or "wrap")
+    lead_class = str(presentation.get("leadClass") or "section-lead")
+    grid_class = str(presentation.get("gridClass") or "grid-2")
+    grid_id = str(presentation.get("contentId") or f"{collection_id}-grid")
+    card_class = str(presentation.get("cardClass") or "card")
+    label_class = str(presentation.get("labelClass") or "")
+    action_container_class = str(presentation.get("actionContainerClass") or "")
+    button_class = str(presentation.get("buttonClass") or "btn btn-secondary")
+    note = presentation.get("note")
+    note_class = str(presentation.get("noteClass") or "portfolio-note")
+
+    rendered_cards: list[str] = []
+    for item in visible_catalog_items(items):
+        card_lines = [f'          <div class="{esc(card_class)}">']
+        label = item.get("label")
+        if label and label_class:
+            card_lines.append(f'            <span class="{esc(label_class)}">{esc(label)}</span>')
+        card_lines.append(f'            <h3>{esc(item.get("title"))}</h3>')
+        card_lines.append(f'            <p>{trusted_html(item, "summary")}</p>')
+
+        highlights = item.get("highlights") or []
+        if highlights:
+            card_lines.append('                <ul>')
+            card_lines.extend(f'                  <li>{esc(value)}</li>' for value in highlights)
+            card_lines.append('                </ul>')
+
+        action = item.get("primaryAction")
+        if action:
+            attrs = ''
+            if action.get("openInNewTab"):
+                attrs = ' target="_blank" rel="noopener noreferrer"'
+            link = f'<a class="{esc(button_class)}" href="{esc(action.get("href"))}"{attrs}>{esc(action.get("label"))}</a>'
+            if action_container_class:
+                card_lines.append(f'            <div class="{esc(action_container_class)}">{link}</div>')
+            else:
+                card_lines.append(f'            {link}')
+
+        card_lines.append('          </div>')
+        rendered_cards.append("\n".join(card_lines))
+
+    section_lines = [
+        f'    <section id="{esc(section_id)}" data-collection data-collection-id="{esc(collection_id)}" data-collection-mode="catalog">',
+        f'      <div class="{esc(wrapper_class)}">',
+        f'        <h2>{esc(presentation.get("title"))}</h2>',
+        f'        <p class="{esc(lead_class)}">',
+        f'          {esc(presentation.get("summary"))}',
+        '        </p>',
+        '',
+        f'        <div id="{esc(grid_id)}" class="{esc(grid_class)}">',
+        "\n".join(rendered_cards),
+        '        </div>',
+    ]
+    if note:
+        section_lines.extend([
+            '',
+            f'        <div class="{esc(note_class)}">',
+            f'          {esc(note)}',
+            '        </div>',
+        ])
+    section_lines.extend(['      </div>', '    </section>', ''])
+    return "\n".join(section_lines)
+
+
+def render_catalog_section(manifest: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    collection_id = str(manifest["id"])
+    presentation = manifest.get("presentation") or {}
+    theme = str(presentation.get("theme") or "light")
+    if theme not in {"light", "dark"}:
+        raise ValueError(f"Unsupported catalog theme for {collection_id}: {theme}")
+
+    extra_classes = presentation.get("extraClasses") or []
+    if not isinstance(extra_classes, list) or not all(isinstance(value, str) for value in extra_classes):
+        raise ValueError(f"presentation.extraClasses must be an array of strings for {collection_id}")
+
+    section_classes = [
+        f"section-{theme}",
+        "panel",
+        "catalog-home-section",
+        *extra_classes,
+        "pm-viewport-target",
+        "pm-scroll-target",
+    ]
+    title_id = f"{collection_id}-title"
+    top_id = f"{collection_id}-top"
+    content_id = str(presentation.get("contentId") or f"{collection_id}-items")
+    content_label = str(presentation.get("contentLabel") or f"{collection_id.title()} items")
+    kicker_class = "section-kicker light"
+
+    return f'''      <section class="{' '.join(section_classes)}" id="{esc(collection_id)}" data-theme="{esc(theme)}" aria-labelledby="{esc(title_id)}">
+        <div class="container catalog-page-layout pm-viewport-target__inner">
+          <section class="catalog-page-head" id="{esc(top_id)}" aria-labelledby="{esc(title_id)}">
+            <span class="{kicker_class}">{esc(presentation.get('kicker') or collection_id.title())}</span>
+            <h2 id="{esc(title_id)}">{esc(presentation.get('title'))}</h2>
+            <p>{esc(presentation.get('summary'))}</p>
+          </section>
+
+          <div class="catalog-full-list" id="{esc(content_id)}" aria-label="{esc(content_label)}">
+{render_catalog_full(manifest, items).rstrip()}
+          </div>
+        </div>
+      </section>
+'''
+
+def render_catalog_hero(manifest: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    item = next((candidate for candidate in items if candidate.get("status") == "featured"), items[0])
+    labels = manifest.get("labels") or {}
+    href = manifest.get("sectionHref") or "/#promotions"
+    detail_id = f"{item.get('slug') or item.get('id')}-details"
+    price = item.get("price")
+    price_row = f'              <span>Price: <strong>{esc(price)}</strong></span>' if price else ""
+    return f'''          <aside class="catalog-hero-card collection collection--catalog" aria-label="Featured {esc(manifest.get('id'))} item" data-collection data-collection-id="{esc(manifest.get('id'))}" data-collection-mode="catalog" data-collection-config="/collections/{esc(manifest.get('id'))}/collection.json">
+            <span class="catalog-hero-kicker">{esc(item.get('label') or 'Featured')}</span>
+            <h2>{esc(item.get('title'))}</h2>
+            <div class="catalog-hero-meta" aria-label="Collection item details">
+              <span>{esc(item.get('audience'))}</span>
+{price_row}
+            </div>
+            <p>{esc(item.get('summary'))}</p>
+            <a class="catalog-hero-cta action action-primary" href="{esc(href)}" data-collection-detail-open="{esc(detail_id)}">{esc(labels.get('heroCta', 'View Details'))}</a>
+          </aside>
+'''
+
+
+def publication_article_template(collection_dir: Path, item: dict[str, Any], item_prefix: str) -> str:
+    title_path = resolve_within(collection_dir, str(item.get("title_md") or ""), "title_md")
+    article_path = resolve_within(collection_dir, str(item.get("full_article_md") or ""), "full_article_md")
+    if not title_path.is_file() or not article_path.is_file():
+        raise ValueError(f"Publication Markdown is missing for item {item.get('id')}")
+    title_html = render_inline_markdown(title_path.read_text(encoding="utf-8").strip())
+    article_source = article_path.read_text(encoding="utf-8").strip()
+    article_source = re.sub(r"^#\s+[^\n]+\n+", "", article_source, count=1)
+    article_html = render_markdown(article_source)
+    item_id = int(item.get("id") or 0)
+    meta = f"Article {item_prefix}-{item_id:03d} · {item.get('category') or 'Field note'}"
+    return f'''        <template data-collection-article-template data-collection-item-id="{esc(item_id)}">
+          <span data-collection-article-title>{title_html}</span>
+          <span data-collection-article-meta>{esc(meta)}</span>
+          <div data-collection-article-body>
+{indent_html(article_html, 12)}
+          </div>
+        </template>'''
+
+
+def render_publication(collection_dir: Path, manifest: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    selection_cfg = manifest.get("selection") or {}
+    selection_path = resolve_within(
+        collection_dir,
+        str(selection_cfg.get("outputFile") or "generated/selection.json"),
+        "selection.outputFile",
+    )
+    selection = load_json(selection_path)
+    visible = selection.get("visibleItems") or []
+    if not visible:
+        raise ValueError(f"No visible items in {selection_path}")
+    labels = manifest.get("labels") or {}
+    presentation = manifest.get("presentation") or {}
+    collection_id = str(manifest["id"])
+    featured, supporting = visible[0], visible[1:]
+
+    title_lines = "\n".join(f"            <span>{esc(line)}</span>" for line in presentation.get("titleLines") or [])
+    action = action_html(presentation.get("primaryAction"), "thread-topic-cta action action-primary")
+    supporting_html = []
+    for item in supporting:
+        supporting_html.append(
+            f'''            <article class="thread-post-card" data-post-category="{esc(item.get('category'))}" data-collection-item data-collection-item-id="{esc(item.get('id'))}" data-collection-slug="{esc(item.get('slug'))}" data-collection-slot="{esc(item.get('slot'))}">
+              <div class="thread-post-meta">
+                <span>{esc(item.get('category'))}</span>
+                <span>{esc(item.get('status'))}</span>
+              </div>
+              <h3>{item.get('title_html') or esc(item.get('title'))}</h3>
+              <p>{item.get('excerpt_html') or esc(item.get('excerpt'))}</p>
+              <a class="thread-post-link" href="{esc(item.get('url'))}" data-collection-open-item="{esc(item.get('id'))}">{esc(labels.get('openItem', 'Read article →'))}</a>
+            </article>'''
+        )
+
+    item_prefix = str(labels.get("itemPrefix") or "Item")
+    templates = "\n".join(publication_article_template(collection_dir, item, item_prefix) for item in visible)
+
+    return f'''  <section class="thread-blog panel pm-viewport-target pm-scroll-target collection collection--publication" id="blog" data-theme="light" aria-labelledby="thread-blog-title" data-collection data-collection-id="{esc(collection_id)}" data-collection-mode="publication" data-collection-config="/collections/{esc(collection_id)}/collection.json">
+
+    <div class="container pm-viewport-target__inner">
+      <div class="thread-blog-showcase">
+        <div class="thread-blog-masthead">
+          <div class="thread-blog-logo-wrap" aria-label="{esc(presentation.get('brand'))}">
+            <img class="thread-blog-logo" src="{esc(presentation.get('logo'))}" alt="{esc(presentation.get('logoAlt'))}" />
+          </div>
+          <span class="thread-blog-kicker">{esc(presentation.get('kicker'))}</span>
+          <h2 id="thread-blog-title" class="thread-blog-title">
+{title_lines}
+          </h2>
+          <p class="thread-blog-summary">{esc(presentation.get('summary'))}</p>
+          <div class="thread-blog-actions">
+            {action}
+          </div>
+        </div>
+
+        <div class="thread-post-layout" aria-label="{esc(presentation.get('brand'))} article list">
+          <article class="thread-featured-post" aria-label="Featured article" data-collection-item data-collection-item-id="{esc(featured.get('id'))}" data-collection-slug="{esc(featured.get('slug'))}" data-collection-slot="{esc(featured.get('slot'))}">
+            <div class="thread-post-meta">
+              <span>{esc(labels.get('featured', 'Featured'))}</span>
+              <span>{esc(featured.get('category'))}</span>
+            </div>
+            <h3>{featured.get('title_html') or esc(featured.get('title'))}</h3>
+            <p>{featured.get('excerpt_html') or esc(featured.get('excerpt'))}</p>
+            <a class="thread-post-link" href="{esc(featured.get('url'))}" data-collection-open-item="{esc(featured.get('id'))}">{esc(labels.get('openFeatured', 'Read this article →'))}</a>
+          </article>
+
+          <div class="thread-post-grid">
+{chr(10).join(supporting_html)}
+          </div>
+        </div>
+
+        <dialog class="thread-article-modal" data-collection-modal aria-labelledby="thread-article-modal-title">
+          <div class="thread-article-modal-shell">
+            <button class="thread-article-modal-close modal-close-circle" type="button" data-collection-modal-close aria-label="{esc(labels.get('close', 'Close article'))}">×</button>
+            <span class="thread-blog-kicker">{esc(presentation.get('brand'))}</span>
+            <p class="thread-article-modal-meta" data-collection-modal-meta></p>
+            <h3 id="thread-article-modal-title" data-collection-modal-title></h3>
+            <div class="thread-article-modal-body" data-collection-modal-body></div>
+          </div>
+        </dialog>
+{templates}
+      </div>
+    </div>
+  </section>
+'''
+
+
+def workspace_thumbnail_html(item: dict[str, Any]) -> str:
+    thumbnail = item.get("thumbnail") or {}
+    variant = str(thumbnail.get("variant") or "signal")
+    metrics = thumbnail.get("metrics") or []
+    metric_html = "".join(f"<span>{esc(metric)}</span>" for metric in metrics)
+    return f'''<div class="workspace-thumbnail workspace-thumbnail--{esc(variant)}" aria-hidden="true">
+              <div class="workspace-thumbnail-bar">
+                <span>{esc(thumbnail.get('eyebrow'))}</span>
+                <i></i><i></i><i></i>
+              </div>
+              <div class="workspace-thumbnail-display">
+                <strong>{esc(thumbnail.get('primary'))}</strong>
+                <small>{esc(thumbnail.get('secondary'))}</small>
+              </div>
+              <div class="workspace-thumbnail-metrics">{metric_html}</div>
+            </div>'''
+
+
+def render_workspace_section(collection_dir: Path, manifest: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    collection_id = str(manifest["id"])
+    presentation = manifest.get("presentation") or {}
+    labels = manifest.get("labels") or {}
+    workspace = manifest.get("workspace") or {}
+    platform_model = presentation.get("platformModel") or {}
+    layers = platform_model.get("layers") or []
+
+    layer_by_id: dict[str, dict[str, Any]] = {}
+    for layer in layers:
+        layer_id = str(layer.get("id") or "")
+        if not layer_id or layer_id in layer_by_id:
+            raise ValueError(f"Invalid or duplicate Portmason platform layer in {collection_id}: {layer_id!r}")
+        layer_by_id[layer_id] = layer
+
+    expected_layers = {"foundations", "operations", "tooling"}
+    if set(layer_by_id) != expected_layers:
+        raise ValueError(
+            f"Portmason platform model for {collection_id} must define exactly: "
+            + ", ".join(sorted(expected_layers))
+        )
+
+    layer_parts: list[str] = []
+    for layer in layers:
+        layer_id = str(layer["id"])
+        includes = layer.get("includes") or []
+        includes_html = ""
+        if includes:
+            includes_html = (
+                '<div class="portmason-platform-includes"><span>Includes</span>'
+                + "".join(f"<strong>{esc(value)}</strong>" for value in includes)
+                + "</div>"
+            )
+        layer_parts.append(f'''        <article class="portmason-platform-layer portmason-platform-layer--{esc(layer_id)}">
+          <span class="portmason-platform-role">{esc(layer.get('role'))}</span>
+          <h3>{esc(layer.get('name'))}</h3>
+          <p>{esc(layer.get('summary'))}</p>
+          {includes_html}
+        </article>''')
+
+    tile_parts: list[str] = []
+    panel_parts: list[str] = []
+    for item in items:
+        slug = str(item.get("slug") or item.get("id") or "")
+        panel_file = item.get("panelFile")
+        if not isinstance(panel_file, str) or not panel_file:
+            raise ValueError(f"Workspace panelFile missing for {collection_id}/{slug}")
+        panel_path = resolve_within(collection_dir, panel_file, "panelFile")
+        if not panel_path.is_file():
+            raise ValueError(f"Workspace panel not found: {panel_path}")
+        panel_markup = panel_path.read_text(encoding="utf-8").strip()
+
+        demonstrates = item.get("demonstrates") or []
+        unknown_layers = [value for value in demonstrates if value not in layer_by_id]
+        if unknown_layers:
+            raise ValueError(
+                f"Workspace item {collection_id}/{slug} references unknown platform layers: "
+                + ", ".join(str(value) for value in unknown_layers)
+            )
+        demonstrate_tags = "".join(
+            f'<span title="{esc(layer_by_id[layer_id].get("name"))}">{esc(layer_by_id[layer_id].get("label"))}</span>'
+            for layer_id in demonstrates
+        )
+
+        tile_parts.append(f'''        <button class="workspace-tile" type="button" data-workspace-open="{esc(slug)}" aria-haspopup="dialog" aria-controls="{esc(collection_id)}-workspace-modal">
+          {workspace_thumbnail_html(item)}
+          <span class="workspace-tile-copy">
+            <span class="workspace-tile-kind">Live tool · {esc(item.get('label'))}</span>
+            <strong>{esc(item.get('shortTitle') or item.get('title'))}</strong>
+            <span class="workspace-tile-summary">{esc(item.get('summary'))}</span>
+            <span class="workspace-tile-demonstrates">
+              <b>Demonstrates</b>
+              <span>{demonstrate_tags}</span>
+            </span>
+          </span>
+          <span class="workspace-tile-action">{esc(labels.get('open', 'Open tool'))} <i aria-hidden="true">↗</i></span>
+        </button>''')
+        panel_parts.append(f'''              <section class="workspace-tool-panel" data-workspace-panel="{esc(slug)}" aria-hidden="true" hidden>
+{panel_markup}
+              </section>''')
+
+    return f'''  <section class="portmason-workspace panel pm-viewport-target pm-scroll-target collection collection--workspace" id="lab" data-theme="dark" data-pm-viewport-align="start" aria-labelledby="{esc(collection_id)}-title" data-collection data-collection-id="{esc(collection_id)}" data-collection-mode="workspace" data-collection-config="/collections/{esc(collection_id)}/collection.json" data-workspace-query-parameter="{esc(workspace.get('queryParameter') or 'workspace')}">
+    <div class="container portmason-workspace-layout pm-viewport-target__inner">
+      <header class="portmason-workspace-intro">
+        <span class="portmason-wordmark">{esc(presentation.get('kicker'))}</span>
+        <h2 id="{esc(collection_id)}-title">{esc(presentation.get('title'))}</h2>
+        <p>{esc(presentation.get('summary'))}</p>
+      </header>
+
+      <section class="portmason-platform-map" aria-labelledby="portmason-platform-map-title">
+        <header>
+          <span>How the platform fits together</span>
+          <p id="portmason-platform-map-title">{esc(platform_model.get('relationship'))}</p>
+        </header>
+        <div class="portmason-platform-layers">
+{chr(10).join(layer_parts)}
+        </div>
+      </section>
+
+      <header class="workspace-gallery-heading">
+        <span>{esc(presentation.get('galleryKicker'))}</span>
+        <p>{esc(presentation.get('gallerySummary'))}</p>
+      </header>
+
+      <div class="workspace-gallery" aria-label="Portmason Platform live tools">
+{chr(10).join(tile_parts)}
+      </div>
+
+      <p class="portmason-mark-notice">{esc(presentation.get('markNotice'))}</p>
+      <noscript><p class="workspace-noscript">JavaScript powers the live tools. The public JSON contracts remain available under <code>/api/</code>.</p></noscript>
+    </div>
+
+    <dialog class="workspace-modal" id="{esc(collection_id)}-workspace-modal" data-workspace-modal aria-labelledby="{esc(collection_id)}-workspace-title">
+      <div class="workspace-modal-shell">
+        <button class="workspace-modal-close modal-close-circle" type="button" data-workspace-close aria-label="{esc(labels.get('close', 'Close tool'))}">×</button>
+        <header class="workspace-modal-header">
+          <span class="workspace-modal-brand">Portmason Platform™</span>
+          <span class="workspace-modal-demonstrates" data-workspace-demonstrates>Demonstrates Portmason Platform™</span>
+          <h2 id="{esc(collection_id)}-workspace-title" data-workspace-title>Live tool</h2>
+          <p data-workspace-summary></p>
+        </header>
+        <div class="workspace-modal-layout">
+          <div class="workspace-stage">
+{chr(10).join(panel_parts)}
+          </div>
+          <aside class="workspace-guide" aria-label="Tool usage">
+            <section class="workspace-guide-proof">
+              <span>{esc(labels.get('proof', 'What this proves'))}</span>
+              <p data-workspace-proof></p>
+            </section>
+            <section>
+              <span>{esc(labels.get('instructions', 'How to use it'))}</span>
+              <ol data-workspace-instructions></ol>
+            </section>
+            <section>
+              <span>{esc(labels.get('inputs', 'What you provide'))}</span>
+              <ul data-workspace-inputs></ul>
+            </section>
+            <section>
+              <span>{esc(labels.get('outputs', 'What it returns'))}</span>
+              <ul data-workspace-outputs></ul>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </dialog>
+  </section>
+'''
+def trusted_html(
+    item: dict[str, Any],
+    field: str,
+    fallback_field: str | None = None,
+) -> str:
+    html_field = f"{field}Html"
+    value = item.get(html_field)
+
+    if value is not None:
+        return str(value)
+
+    raw_value = item.get(field)
+    if raw_value is None and fallback_field:
+        return trusted_html(item, fallback_field)
+
+    return esc(raw_value)
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("collection_id")
+    parser.add_argument("region")
+    args = parser.parse_args()
+
+    if args.collection_id == "_system" and args.region == "styles":
+        sys.stdout.write(render_collection_styles())
+        return 0
+    if args.collection_id == "_system" and args.region == "scripts":
+        sys.stdout.write(render_collection_scripts())
+        return 0
+
+    collection_dir, manifest, items = collection_paths(args.collection_id)
+    mode = manifest.get("mode")
+    if mode == "catalog" and args.region == "section":
+        if manifest.get("layout") == "card-grid":
+            output = render_card_grid_section(manifest, items)
+        else:
+            output = render_catalog_section(manifest, items)
+    elif mode == "catalog" and args.region == "heroTeaser":
+        output = render_catalog_hero(manifest, items)
+    elif mode == "publication" and args.region == "section":
+        output = render_publication(collection_dir, manifest, items)
+    elif mode == "workspace" and args.region == "section":
+        output = render_workspace_section(collection_dir, manifest, items)
+    else:
+        raise ValueError(f"Unsupported collection region: {args.collection_id}/{args.region}")
+    sys.stdout.write(output.rstrip() + "\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

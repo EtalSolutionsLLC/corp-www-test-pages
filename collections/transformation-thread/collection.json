@@ -1,0 +1,40 @@
+{
+  "id": "transformation-thread",
+  "mode": "publication",
+  "layout": "featured-grid",
+  "styleFile": "styles.css",
+  "sectionHref": "/#blog",
+  "labels": {
+    "itemPrefix": "TT",
+    "featured": "Featured",
+    "openFeatured": "Read this article →",
+    "openItem": "Read article →",
+    "close": "Close article"
+  },
+  "presentation": {
+    "brand": "The Transformation Thread",
+    "logo": "https://public.etal.solutions/assets/the-transformation-thread/logos/the-transformation-thread-OFFICIAL.png",
+    "logoAlt": "The Transformation Thread",
+    "kicker": "Field Notes",
+    "titleLines": [
+      "Strategy,",
+      "systems,",
+      "people,",
+      "A.I."
+    ],
+    "summary": "Sharp, practical notes on technology decisions, organizational change, and using A.I. without losing the thread.",
+    "primaryAction": {
+      "label": "Suggest an Article Idea",
+      "href": "mailto:info@etalsolutions.tech?subject=The%20Transformation%20Thread%20Article%20Idea"
+    }
+  },
+  "selection": {
+    "strategy": "weekday-week-of-month",
+    "visibleItems": 3,
+    "timezone": "America/New_York",
+    "outputFile": "generated/selection.json"
+  },
+  "regions": {
+    "section": "COLLECTION-TRANSFORMATION-THREAD"
+  }
+}

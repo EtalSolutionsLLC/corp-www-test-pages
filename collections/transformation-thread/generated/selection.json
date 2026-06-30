@@ -1,0 +1,62 @@
+{
+  "generated_by": "bin/rotate-transformation-thread",
+  "collection": "transformation-thread",
+  "selection_date": "2026-06-25",
+  "rotation_timezone": "America/New_York",
+  "active_slot": 4,
+  "week_of_month": 4,
+  "source_sha256": "1a52423b2797719d9fd541868153bfaa688b56ba2759f18458c0a6b494f31fe3",
+  "visibleItems": [
+    {
+      "id": 4,
+      "slug": "tt-004",
+      "slot": 4,
+      "category": "Systems Thinking",
+      "status": "Draft",
+      "dateFirstDisplayed": "2026-06-25",
+      "displayAfter": [],
+      "title_md": "items/004/title.md",
+      "excerpt_md": "items/004/excerpt.md",
+      "full_article_md": "items/004/full-article.md",
+      "title": "Legacy systems are often carrying business memory",
+      "title_html": "Legacy systems are often carrying business memory",
+      "excerpt": "A perspective piece on treating older systems as operational knowledge, not just technical debt.",
+      "excerpt_html": "A perspective piece on treating older systems as operational knowledge, not just technical debt.",
+      "url": "mailto:info@etalsolutions.tech?subject=Transformation%20Thread%20article%20request%20%5BTT-004%5D&body=Please%20send%20Transformation%20Thread%20article%20TT-004%3A%20Legacy%20systems%20are%20often%20carrying%20business%20memory"
+    },
+    {
+      "id": 5,
+      "slug": "tt-005",
+      "slot": 5,
+      "category": "Workforce Transformation",
+      "status": "Draft",
+      "dateFirstDisplayed": "2026-06-25",
+      "displayAfter": [],
+      "title_md": "items/005/title.md",
+      "excerpt_md": "items/005/excerpt.md",
+      "full_article_md": "items/005/full-article.md",
+      "title": "Experience should not expire",
+      "title_html": "Experience should not expire",
+      "excerpt": "A practical look at how hiring systems, workplace assumptions, and automated screening can undervalue older workers—and why transformation should preserve experience instead of filtering it out.",
+      "excerpt_html": "A practical look at how hiring systems, workplace assumptions, and automated screening can undervalue older workers—and why transformation should preserve experience instead of filtering it out.",
+      "url": "mailto:info@etalsolutions.tech?subject=Transformation%20Thread%20article%20request%20%5BTT-005%5D&body=Please%20send%20Transformation%20Thread%20article%20TT-005%3A%20Experience%20should%20not%20expire"
+    },
+    {
+      "id": 6,
+      "slug": "tt-006",
+      "slot": 6,
+      "category": "A.I. Risk",
+      "status": "Draft",
+      "dateFirstDisplayed": "2026-06-25",
+      "displayAfter": [],
+      "title_md": "items/006/title.md",
+      "excerpt_md": "items/006/excerpt.md",
+      "full_article_md": "items/006/full-article.md",
+      "title": "Is it too late for a Skynet scenario?",
+      "title_html": "Is it too late for a Skynet scenario?",
+      "excerpt": "A grounded reflection on whether A.I. has already become too embedded to control, and why the real risk may be less about machines waking up and more about people surrendering judgment too casually.",
+      "excerpt_html": "A grounded reflection on whether A.I. has already become too embedded to control, and why the real risk may be less about machines waking up and more about people surrendering judgment too casually.",
+      "url": "mailto:info@etalsolutions.tech?subject=Transformation%20Thread%20article%20request%20%5BTT-006%5D&body=Please%20send%20Transformation%20Thread%20article%20TT-006%3A%20Is%20it%20too%20late%20for%20a%20Skynet%20scenario%3F"
+    }
+  ]
+}

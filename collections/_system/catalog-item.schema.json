@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.etal.solutions/collections/_system/catalog-item.schema.json",
+  "title": "Portmason Collections Catalog Item",
+  "allOf": [
+    {
+      "$ref": "item-base.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "title",
+        "summary"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "shortTitle": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "summaryHtml": {
+          "type": "string"
+        },
+        "detailSummary": {
+          "type": "string"
+        },
+        "detailSummaryHtml": {
+          "type": "string"
+        },
+        "logo": {
+          "type": "string"
+        },
+        "logoAlt": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "priceNote": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "body"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "primaryAction": {
+          "type": "object",
+          "required": [
+            "label",
+            "href"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "href": {
+              "type": "string"
+            },
+            "openInNewTab": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "highlights": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "secondaryAction": {
+          "type": "object",
+          "required": [
+            "label",
+            "href"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "href": {
+              "type": "string"
+            },
+            "openInNewTab": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

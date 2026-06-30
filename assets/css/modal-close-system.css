@@ -1,0 +1,136 @@
+/* Site-wide modal close-control standard
+   ------------------------------------------------------------
+   Every modal uses the same circular, icon-only close affordance.
+   Shell-hosted controls are pinned to the modal's upper-right corner.
+   Scrollable catalog controls remain sticky in that same position. */
+:root {
+  --modal-close-size: 36px;
+  --modal-close-border: rgba(255, 255, 255, 0.58);
+  --modal-close-bg: rgba(4, 15, 34, 0.92);
+  --modal-close-bg-hover: #123bff;
+  --modal-close-fg: #ffffff;
+  --modal-close-focus: 0 0 0 3px rgba(18, 59, 255, 0.22);
+  --modal-close-inset: 10px;
+}
+
+.modal-close-circle,
+.catalog-detail-close,
+.catalog-overview-close,
+.policy-modal-close-enhanced,
+.explore-mesh-modal-close,
+.thread-article-modal-close,
+.home-quick-summary-modal-close,
+.workspace-modal-close,
+#cc-main .pm__close-btn {
+  display: grid !important;
+  width: var(--modal-close-size) !important;
+  min-width: var(--modal-close-size) !important;
+  max-width: var(--modal-close-size) !important;
+  height: var(--modal-close-size) !important;
+  min-height: var(--modal-close-size) !important;
+  max-height: var(--modal-close-size) !important;
+  padding: 0 !important;
+  place-items: center !important;
+  isolation: isolate !important;
+  border: 1px solid var(--modal-close-border) !important;
+  border-radius: 50% !important;
+  background: var(--modal-close-bg) !important;
+  color: var(--modal-close-fg) !important;
+  font-family: inherit !important;
+  font-size: 0 !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-indent: 0 !important;
+  white-space: nowrap !important;
+  aspect-ratio: 1 / 1 !important;
+  cursor: pointer !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.20) !important;
+}
+
+.modal-close-circle::before,
+.catalog-detail-close::before,
+.catalog-overview-close::before,
+.policy-modal-close-enhanced::before,
+.explore-mesh-modal-close::before,
+.thread-article-modal-close::before,
+.home-quick-summary-modal-close::before,
+.workspace-modal-close::before,
+#cc-main .pm__close-btn::before {
+  content: "×";
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: #ffffff;
+  font-size: 1.34rem;
+  font-weight: 900;
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+
+.modal-close-circle:hover,
+.modal-close-circle:focus-visible,
+.catalog-detail-close:hover,
+.catalog-detail-close:focus-visible,
+.catalog-overview-close:hover,
+.catalog-overview-close:focus-visible,
+.policy-modal-close-enhanced:hover,
+.policy-modal-close-enhanced:focus-visible,
+.explore-mesh-modal-close:hover,
+.explore-mesh-modal-close:focus-visible,
+.thread-article-modal-close:hover,
+.thread-article-modal-close:focus-visible,
+.home-quick-summary-modal-close:hover,
+.home-quick-summary-modal-close:focus-visible,
+.workspace-modal-close:hover,
+.workspace-modal-close:focus-visible,
+#cc-main .pm__close-btn:hover,
+#cc-main .pm__close-btn:focus-visible {
+  background: var(--modal-close-bg-hover) !important;
+  color: #ffffff !important;
+  outline: none !important;
+  box-shadow: var(--modal-close-focus) !important;
+}
+
+/* Modal shells establish the containing block; the close control is always
+   the first visual control in the upper-right corner. */
+.home-quick-summary-shell > .home-quick-summary-modal-close,
+.thread-article-modal-shell > .thread-article-modal-close,
+.workspace-modal-shell > .workspace-modal-close,
+.site-build-modal-shell > .modal-close-circle,
+.policy-modal-close-host > .policy-modal-close-enhanced,
+.policy-modal-close-enhanced[data-policy-modal-close-enhanced],
+.explore-mesh-modal-close,
+#cc-main .pm__close-btn {
+  position: absolute !important;
+  top: var(--modal-close-inset) !important;
+  right: var(--modal-close-inset) !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 50 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.policy-modal-close-host {
+  position: relative !important;
+}
+
+/* Catalog details are custom scrollable dialogs. Sticky positioning keeps the
+   control in the same upper-right corner while the modal body scrolls. */
+.catalog-detail-modal .catalog-detail-close,
+.catalog-overview-close {
+  position: sticky !important;
+  top: var(--modal-close-inset) !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 50 !important;
+  align-self: flex-end !important;
+  margin: 0 0 10px auto !important;
+}
+
+#cc-main .pm__close-btn svg {
+  display: none !important;
+}

@@ -1,0 +1,907 @@
+/* Portmason Platform™ Systems Lab — branded workspace instance. */
+.portmason-workspace {
+  position: relative;
+  overflow: hidden;
+  color: #f4f7ff;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(46, 97, 255, .26), transparent 0 31%),
+    radial-gradient(circle at 88% 82%, rgba(0, 255, 178, .1), transparent 0 27%),
+    linear-gradient(137deg, #071426 0%, #030a14 55%, #08182b 100%);
+}
+
+.portmason-workspace::before,
+.portmason-workspace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.portmason-workspace::before {
+  background-image:
+    linear-gradient(rgba(138, 176, 255, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(138, 176, 255, .045) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: linear-gradient(to bottom, #000 0 72%, transparent 100%);
+}
+
+.portmason-workspace::after {
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(#123bff, #00ffb2);
+  box-shadow: 0 0 28px rgba(18, 59, 255, .6);
+}
+
+.portmason-workspace-layout {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  gap: clamp(12px, 1.5vw, 20px) !important;
+}
+
+.portmason-workspace-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .72fr);
+  gap: clamp(18px, 4vw, 58px);
+  align-items: end;
+}
+
+.portmason-wordmark,
+.workspace-modal-brand,
+.workspace-modal-demonstrates,
+.portmason-tool-kicker,
+.lab-panel-label {
+  color: #8fb2ff;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .145em;
+  text-transform: uppercase;
+}
+
+.portmason-wordmark {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 7px 10px;
+  border: 1px solid rgba(143, 178, 255, .28);
+  background: rgba(4, 13, 29, .54);
+  box-shadow: inset 3px 0 0 #123bff;
+}
+
+.portmason-workspace-intro h2 {
+  margin: 0;
+  max-width: 12ch;
+  color: #fff;
+  font-size: clamp(2.9rem, 5.7vw, 5.4rem);
+  line-height: .86;
+  letter-spacing: -.066em;
+}
+
+.portmason-workspace-intro p {
+  margin: 0;
+  max-width: 58ch;
+  color: rgba(235, 242, 255, .72);
+  font-size: clamp(.94rem, 1.1vw, 1.06rem);
+  line-height: 1.55;
+}
+
+.portmason-platform-map {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(143, 178, 255, .18);
+  background: rgba(3, 10, 22, .58);
+}
+
+.portmason-platform-map > header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px 18px;
+  align-items: baseline;
+}
+
+.portmason-platform-map > header > span,
+.workspace-gallery-heading > span,
+.portmason-platform-role {
+  color: #8fb2ff;
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.portmason-platform-map > header > p {
+  margin: 0;
+  color: rgba(235, 242, 255, .72);
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.portmason-platform-layers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.portmason-platform-layer {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(96px, auto) minmax(0, 1fr);
+  column-gap: 18px;
+  row-gap: 4px;
+  align-items: center;
+  padding: 13px 15px;
+  border: 1px solid rgba(143, 178, 255, .16);
+  background: linear-gradient(145deg, rgba(13, 31, 57, .72), rgba(4, 12, 25, .74));
+}
+
+.portmason-platform-layer > .portmason-platform-role {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: stretch;
+  display: grid;
+  place-items: center start;
+  min-width: 96px;
+  padding-right: 15px;
+  border-right: 1px solid rgba(143, 178, 255, .14);
+}
+
+.portmason-platform-layer h3,
+.portmason-platform-layer p,
+.portmason-platform-includes {
+  grid-column: 2;
+}
+
+.portmason-platform-layer h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.05;
+  letter-spacing: -.025em;
+}
+
+.portmason-platform-layer p {
+  margin: 3px 0 0;
+  color: rgba(235, 242, 255, .6);
+  font-size: .72rem;
+  line-height: 1.4;
+}
+
+.portmason-platform-layer--foundations {
+  box-shadow: inset 2px 0 0 #123bff;
+}
+
+.portmason-platform-layer--operations {
+  box-shadow: inset 2px 0 0 #00ffb2;
+}
+
+.portmason-platform-layer--tooling {
+  grid-column: 1 / -1;
+  box-shadow: inset 2px 0 0 #9b5de5;
+}
+
+.portmason-platform-includes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.portmason-platform-includes span {
+  color: rgba(235, 242, 255, .42);
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.portmason-platform-includes strong {
+  padding: 4px 7px;
+  border: 1px solid rgba(18, 59, 255, .34);
+  background: rgba(18, 59, 255, .1);
+  color: #bcd0ff;
+  font-size: .62rem;
+  letter-spacing: .035em;
+}
+
+.workspace-gallery-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px 18px;
+  align-items: baseline;
+  padding: 2px 0 0;
+}
+
+.workspace-gallery-heading p {
+  margin: 0;
+  color: rgba(235, 242, 255, .6);
+  font-size: .78rem;
+  line-height: 1.42;
+}
+
+.workspace-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 16px);
+}
+
+.workspace-tile {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-width: 0;
+  min-height: 335px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(143, 178, 255, .19);
+  border-radius: 0;
+  background: linear-gradient(153deg, rgba(13, 31, 57, .95), rgba(4, 12, 25, .95));
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  box-shadow: 0 24px 58px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .045);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.workspace-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, #123bff, #00ffb2 72%, transparent);
+  transform: scaleX(.42);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+
+.workspace-tile:hover,
+.workspace-tile:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(143, 178, 255, .5);
+  box-shadow: 0 30px 68px rgba(0, 0, 0, .34), 0 0 28px rgba(18, 59, 255, .12);
+}
+
+.workspace-tile:hover::after,
+.workspace-tile:focus-visible::after { transform: scaleX(1); }
+.workspace-tile:focus-visible { outline: 2px solid #8fb2ff; outline-offset: 3px; }
+
+.workspace-thumbnail {
+  position: relative;
+  min-height: 148px;
+  margin: 12px 12px 0;
+  overflow: hidden;
+  border: 1px solid rgba(143, 178, 255, .18);
+  background:
+    linear-gradient(rgba(143, 178, 255, .04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 178, 255, .04) 1px, transparent 1px),
+    #020914;
+  background-size: 22px 22px;
+}
+
+.workspace-thumbnail::before {
+  content: "";
+  position: absolute;
+  inset: auto 8% 24% 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #123bff 15%, #00ffb2 82%, transparent);
+  box-shadow: 0 -22px 0 rgba(18, 59, 255, .22), 0 22px 0 rgba(0, 255, 178, .13);
+}
+
+.workspace-thumbnail--signal::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  right: 22%;
+  bottom: calc(24% - 4px);
+  border-radius: 50%;
+  background: #00ffb2;
+  box-shadow: 0 0 0 5px rgba(0, 255, 178, .08), 0 0 22px #00ffb2;
+}
+
+.workspace-thumbnail--contract::before {
+  height: 50px;
+  inset: auto 11% 19% 11%;
+  border: 1px solid rgba(143, 178, 255, .28);
+  background: linear-gradient(90deg, rgba(18, 59, 255, .2) 31%, transparent 31% 34%, rgba(0, 255, 178, .09) 34%);
+  box-shadow: none;
+}
+
+.workspace-thumbnail--model::before {
+  inset: 49% auto auto 50%;
+  width: 76px;
+  height: 76px;
+  border: 1px solid rgba(143, 178, 255, .22);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 178, .25), rgba(18, 59, 255, .14) 48%, transparent 50%);
+  box-shadow: 0 0 0 17px rgba(18, 59, 255, .05), 0 0 36px rgba(18, 59, 255, .2);
+  transform: translate(-50%, -50%);
+}
+
+.workspace-thumbnail--performance::before {
+  inset: auto 12% 25% 12%;
+  height: 50px;
+  background:
+    linear-gradient(to top, #123bff 0 58%, transparent 58%) 0 100% / 17% 100% no-repeat,
+    linear-gradient(to top, #3266ff 0 82%, transparent 82%) 27% 100% / 17% 100% no-repeat,
+    linear-gradient(to top, #00ffb2 0 39%, transparent 39%) 54% 100% / 17% 100% no-repeat,
+    linear-gradient(to top, #80ffdc 0 66%, transparent 66%) 81% 100% / 17% 100% no-repeat;
+  box-shadow: none;
+}
+
+.workspace-thumbnail-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 9px;
+  border-bottom: 1px solid rgba(143, 178, 255, .14);
+  color: #8fb2ff;
+  font-size: .52rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.workspace-thumbnail-bar span { margin-right: auto; }
+.workspace-thumbnail-bar i { width: 5px; height: 5px; border-radius: 50%; background: rgba(143, 178, 255, .36); }
+.workspace-thumbnail-bar i:last-child { background: #00ffb2; box-shadow: 0 0 8px rgba(0, 255, 178, .65); }
+
+.workspace-thumbnail-display {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 5px;
+  padding: 19px 12px 0;
+}
+
+.workspace-thumbnail-display strong { color: #fff; font-size: .92rem; letter-spacing: -.02em; }
+.workspace-thumbnail-display small { color: rgba(207, 222, 255, .56); font: 600 .58rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; }
+.workspace-thumbnail-metrics {
+  position: absolute;
+  z-index: 2;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+.workspace-thumbnail-metrics span {
+  padding: 5px 2px;
+  border: 1px solid rgba(143, 178, 255, .14);
+  background: rgba(4, 12, 26, .82);
+  color: rgba(215, 226, 250, .55);
+  font-size: .48rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.workspace-tile-copy {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  padding: 15px 15px 12px;
+}
+.workspace-tile-kind { color: #8fb2ff; font-size: .58rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.workspace-tile-copy > strong { color: #fff; font-size: 1.12rem; line-height: 1.05; letter-spacing: -.035em; }
+.workspace-tile-summary { color: rgba(235, 242, 255, .62); font-size: .78rem; line-height: 1.38; }
+.workspace-tile-demonstrates {
+  display: grid;
+  gap: 6px;
+  margin-top: 4px;
+}
+.workspace-tile-demonstrates > b {
+  color: rgba(235, 242, 255, .42);
+  font-size: .53rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.workspace-tile-demonstrates > span {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.workspace-tile-demonstrates > span > span {
+  padding: 4px 6px;
+  border: 1px solid rgba(143, 178, 255, .18);
+  background: rgba(18, 59, 255, .08);
+  color: #bcd0ff;
+  font-size: .56rem;
+  font-weight: 850;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.workspace-tile-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 15px 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(143, 178, 255, .14);
+  color: #bcd0ff;
+  font-size: .67rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.workspace-tile-action i { color: #00ffb2; font-size: .9rem; font-style: normal; }
+
+.portmason-mark-notice,
+.workspace-noscript {
+  margin: 0;
+  color: rgba(211, 223, 247, .4);
+  font-size: .62rem;
+  line-height: 1.4;
+}
+
+html.workspace-modal-open { overflow: hidden; }
+.workspace-modal {
+  width: min(95vw, 1480px);
+  max-width: none;
+  height: min(92dvh, 900px);
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(143, 178, 255, .34);
+  border-radius: 0;
+  background: #050d1a;
+  color: #fff;
+  box-shadow: 0 44px 130px rgba(0, 0, 0, .72), 0 0 0 1px rgba(18, 59, 255, .2);
+}
+.workspace-modal::backdrop {
+  background: rgba(0, 5, 14, .84);
+  backdrop-filter: blur(10px);
+}
+.workspace-modal-shell {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 6% 4%, rgba(18, 59, 255, .2), transparent 0 31%),
+    linear-gradient(145deg, #08172a, #030a14 63%);
+}
+.workspace-modal-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(143, 178, 255, .027) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 178, 255, .027) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.workspace-modal-close { position: absolute !important; z-index: 8; top: 16px; right: 16px; }
+.workspace-modal-header {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 18px;
+  padding: 20px clamp(58px, 6vw, 92px) 16px clamp(20px, 3vw, 42px);
+  border-bottom: 1px solid rgba(143, 178, 255, .18);
+  background: rgba(3, 10, 22, .74);
+}
+.workspace-modal-brand {
+  grid-row: 1 / 4;
+  align-self: stretch;
+  display: grid;
+  align-items: center;
+  padding: 0 18px 0 0;
+  border-right: 1px solid rgba(143, 178, 255, .18);
+  color: #fff;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.workspace-modal-demonstrates { align-self: end; color: #00ffb2; }
+.workspace-modal-header h2 { margin: 0; color: #fff; font-size: clamp(1.6rem, 3vw, 2.8rem); line-height: .95; letter-spacing: -.05em; }
+.workspace-modal-header p { max-width: 92ch; margin: 2px 0 0; color: rgba(232, 240, 255, .62); font-size: .82rem; line-height: 1.45; }
+.workspace-modal-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(270px, 3fr);
+  min-height: 0;
+}
+.workspace-stage {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: clamp(18px, 3vw, 38px);
+  scrollbar-color: rgba(143, 178, 255, .36) transparent;
+}
+.workspace-tool-panel[hidden] { display: none !important; }
+.workspace-guide {
+  min-width: 0;
+  overflow: auto;
+  padding: clamp(18px, 2.5vw, 32px);
+  border-left: 1px solid rgba(143, 178, 255, .18);
+  background: rgba(2, 8, 18, .72);
+}
+.workspace-guide section + section { margin-top: 24px; padding-top: 21px; border-top: 1px solid rgba(143, 178, 255, .13); }
+.workspace-guide section > span { display: block; color: #8fb2ff; font-size: .64rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.workspace-guide-proof p { margin: 11px 0 0; color: #dbe7ff; font-size: .82rem; line-height: 1.5; }
+.workspace-guide ol,
+.workspace-guide ul { margin: 11px 0 0; padding-left: 1.15rem; color: rgba(229, 237, 253, .7); font-size: .79rem; line-height: 1.48; }
+.workspace-guide li + li { margin-top: 8px; }
+.workspace-guide li::marker { color: #00ffb2; font-weight: 900; }
+
+.portmason-tool { max-width: 980px; margin: 0 auto; }
+.portmason-tool-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: start; }
+.portmason-tool h3 { margin: 7px 0 0; color: #fff; font-size: clamp(1.7rem, 3.4vw, 3.4rem); line-height: .92; letter-spacing: -.052em; }
+.portmason-tool > p { max-width: 82ch; margin: 14px 0 0; color: rgba(235, 242, 255, .68); line-height: 1.5; }
+.lab-live-indicator,
+.lab-contract-badge,
+.lab-local-badge {
+  align-self: start;
+  padding: 7px 9px;
+  border: 1px solid rgba(0, 255, 178, .28);
+  background: rgba(0, 255, 178, .055);
+  color: #00ffb2;
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.lab-live-indicator.is-error { color: #ff9b9b; border-color: rgba(255, 120, 120, .3); background: rgba(255, 80, 80, .06); }
+
+.lab-metrics,
+.lab-proof-grid,
+.lab-model-result dl,
+.site-size-result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin: 18px 0 0;
+}
+.lab-metrics div,
+.lab-proof-grid div,
+.lab-model-result dl div,
+.site-size-result-grid div {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(143, 178, 255, .16);
+  background: rgba(255, 255, 255, .034);
+}
+.lab-metrics dt,
+.lab-proof-grid dt,
+.lab-model-result dt,
+.site-size-result-grid dt { color: rgba(255, 255, 255, .48); font-size: .6rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.lab-metrics dd,
+.lab-proof-grid dd,
+.lab-model-result dd,
+.site-size-result-grid dd { margin: 5px 0 0; color: #fff; font-weight: 800; overflow-wrap: anywhere; }
+.lab-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 11px; margin-top: 16px; }
+.lab-response-details { min-width: 0; color: #8fb2ff; }
+.lab-response-details summary { cursor: pointer; font-size: .8rem; font-weight: 800; }
+.lab-response-details[open] { width: 100%; }
+.lab-response-details pre,
+.lab-api-result pre {
+  max-height: 250px;
+  margin: 11px 0 0;
+  padding: 15px;
+  overflow: auto;
+  border: 1px solid rgba(143, 178, 255, .16);
+  background: #010711;
+  color: #c7d8ff;
+  font: 500 .76rem/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.lab-api-form { margin-top: 20px; }
+.lab-api-form label,
+.lab-model-input label,
+.site-size-form label { display: block; margin-bottom: 8px; color: rgba(255, 255, 255, .7); font-size: .7rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.lab-api-form-row,
+.site-size-form-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.lab-api-form select,
+.site-size-form input,
+.lab-model-input textarea {
+  width: 100%;
+  border: 1px solid rgba(143, 178, 255, .25);
+  border-radius: 0;
+  background: rgba(1, 7, 17, .88);
+  color: #fff;
+  font: inherit;
+}
+.lab-api-form select,
+.site-size-form input { min-height: 44px; padding: 0 12px; }
+.lab-model-input textarea { min-height: 180px; padding: 13px; resize: vertical; line-height: 1.5; }
+.lab-api-form select:focus,
+.site-size-form input:focus,
+.lab-model-input textarea:focus { outline: 2px solid rgba(18, 59, 255, .72); outline-offset: 2px; }
+.lab-api-config-note { margin: 9px 0 0; color: rgba(255, 255, 255, .48); font-size: .72rem; }
+.lab-api-config-note code { color: #b9cdff; }
+.lab-api-result { margin-top: 12px; }
+.lab-api-result-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.lab-api-result-meta span { padding: 5px 8px; background: rgba(18, 59, 255, .14); color: #b9cdff; font-size: .66rem; font-weight: 800; }
+.lab-model-layout { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(260px, .82fr); gap: clamp(18px, 3vw, 36px); margin-top: 24px; }
+.lab-model-status { color: rgba(255, 255, 255, .55); font-size: .78rem; }
+.lab-model-result { padding: 19px; border-left: 2px solid #00ffb2; background: rgba(0, 255, 178, .045); }
+.lab-model-result h4 { margin: 8px 0 0; color: #fff; font-size: clamp(1.45rem, 2.4vw, 2.15rem); line-height: 1; }
+.lab-model-result p { color: rgba(255, 255, 255, .65); }
+.lab-model-result dl { grid-template-columns: 1fr; }
+.site-size-compare { margin-top: 25px; padding-top: 24px; border-top: 1px solid rgba(143, 178, 255, .16); }
+.site-size-compare-intro h4,
+.site-size-result h4 { margin: 8px 0 0; color: #fff; font-size: clamp(1.15rem, 2vw, 1.6rem); }
+.site-size-compare-intro p,
+.site-size-status,
+.site-size-result p { color: rgba(255, 255, 255, .62); }
+.site-size-form { margin-top: 17px; }
+.site-size-status { min-height: 1.4em; margin: 12px 0 0; }
+.site-size-result { margin-top: 18px; padding: 18px; border: 1px solid rgba(143, 178, 255, .16); background: rgba(255, 255, 255, .025); }
+.site-size-result-grid dd { display: grid; gap: 4px; }
+.site-size-result-grid dd > span { font-size: 1.03rem; }
+.site-size-result-grid dd small { color: rgba(255, 255, 255, .55); font-size: .66rem; font-weight: 750; line-height: 1.35; }
+.site-size-result-grid dd small strong { color: #00ffb2; font: inherit; }
+.site-size-result-summary + .site-size-result-summary { margin-top: -5px; color: #dce8ff; }
+.site-size-result-source a { color: #8fb2ff; }
+
+/* Wide-screen composition follows the approved Portmason mockup:
+   a broad hero row, a shallow three-layer platform stack, and the live tools
+   immediately below it. The goal is to expose the first tool row above the
+   fold without shrinking the platform explanation into a side rail. */
+@media (min-width: 1061px) {
+  .portmason-workspace-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "intro"
+      "platform"
+      "gallery-heading"
+      "gallery"
+      "notice"
+      "noscript";
+    row-gap: clamp(8px, .9vw, 12px) !important;
+    align-items: start;
+  }
+
+  /* Compact architectural hero: a technical rail, a single declarative
+     headline when space permits, and supporting copy anchored beneath it on
+     the same invisible grid. */
+  .portmason-workspace-intro {
+    grid-area: intro;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-areas:
+      "wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark"
+      "title title title title title title title title title title title title"
+      ". . . summary summary summary summary summary summary summary summary summary";
+    column-gap: clamp(12px, 1.25vw, 18px);
+    row-gap: clamp(7px, .65vw, 10px);
+    align-items: start;
+  }
+
+  .portmason-wordmark {
+    grid-area: wordmark;
+    grid-column: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .portmason-wordmark::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(143, 178, 255, .34),
+      rgba(143, 178, 255, .08) 62%,
+      transparent
+    );
+  }
+
+  .portmason-workspace-intro h2 {
+    grid-area: title;
+    grid-column: 1 / -1;
+    max-width: none;
+    font-size: clamp(3.72rem, 5.25vw, 5.15rem);
+    line-height: .9;
+    white-space: nowrap;
+  }
+
+  .portmason-workspace-intro p {
+    grid-area: summary;
+    grid-column: 4 / -1;
+    justify-self: start;
+    width: min(100%, 74ch);
+    max-width: 74ch;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: clamp(.94rem, 1.04vw, 1.02rem);
+    line-height: 1.48;
+  }
+
+  .portmason-platform-map {
+    grid-area: platform;
+    gap: 6px;
+    margin-top: clamp(16px, 1.15vw, 20px);
+    padding: 8px 10px 9px;
+  }
+
+  .portmason-platform-map > header {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px 18px;
+  }
+
+  .portmason-platform-layers {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  /* Keep every platform plane on one compact desktop row so the live tools
+     rise further above the fold. */
+  .portmason-platform-layer {
+    grid-template-columns:
+      minmax(160px, .19fr)
+      max-content
+      minmax(0, 1fr);
+    grid-template-rows: auto;
+    column-gap: 18px;
+    row-gap: 0;
+    min-height: 48px;
+    padding: 7px 12px;
+  }
+
+  .portmason-platform-layer--tooling {
+    grid-column: auto;
+  }
+
+  .portmason-platform-layer > .portmason-platform-role {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: stretch;
+    min-width: 160px;
+    padding-right: 14px;
+  }
+
+  .portmason-platform-layer > h3 {
+    grid-column: 2;
+    grid-row: 1;
+    white-space: nowrap;
+  }
+
+  .portmason-platform-layer > p {
+    grid-column: 3;
+    grid-row: 1;
+    margin: 0;
+  }
+
+  .portmason-platform-layer--foundations {
+    grid-template-columns:
+      minmax(160px, .19fr)
+      max-content
+      minmax(0, 1fr)
+      max-content;
+  }
+
+  .portmason-platform-layer--foundations > .portmason-platform-includes {
+    grid-column: 4;
+    grid-row: 1;
+    align-self: stretch;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding-left: 18px;
+    border-left: 1px solid rgba(143, 178, 255, .14);
+  }
+
+  .portmason-platform-layer--foundations
+    > .portmason-platform-includes
+    span,
+  .portmason-platform-layer--foundations
+    > .portmason-platform-includes
+    strong {
+    white-space: nowrap;
+  }
+
+  .workspace-gallery-heading {
+    grid-area: gallery-heading;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px 18px;
+    margin-top: clamp(14px, 1vw, 18px);
+    padding-top: 2px;
+  }
+
+  .workspace-gallery {
+    grid-area: gallery;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .workspace-tile { min-height: 335px; }
+  .portmason-mark-notice { grid-area: notice; }
+  .portmason-workspace-layout > noscript { grid-area: noscript; }
+}
+
+
+@media (min-width: 1061px) and (max-width: 1239px) {
+  .portmason-workspace-intro {
+    grid-template-areas:
+      "wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark wordmark"
+      "title title title title title title title title title title title title"
+      ". . summary summary summary summary summary summary summary summary summary summary";
+  }
+
+  .portmason-workspace-intro h2 {
+    max-width: 11.25ch;
+    white-space: normal;
+  }
+
+  .portmason-workspace-intro p {
+    grid-column: 3 / -1;
+  }
+}
+
+@media (max-width: 1060px) {
+  .workspace-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .workspace-tile { min-height: 315px; }
+  .workspace-modal { width: 96vw; height: 94dvh; }
+  .workspace-modal-layout { grid-template-columns: minmax(0, 1fr) 285px; }
+}
+
+@media (max-width: 760px) {
+  .portmason-workspace-intro { grid-template-columns: 1fr; }
+  .portmason-workspace-intro h2 { max-width: none; }
+  .portmason-platform-map > header,
+  .workspace-gallery-heading { grid-template-columns: 1fr; }
+  .portmason-platform-layers { grid-template-columns: 1fr; }
+  .portmason-platform-layer--tooling { grid-column: auto; }
+  .workspace-modal { width: 100vw; height: 100dvh; border: 0; }
+  .workspace-modal-layout { grid-template-columns: 1fr; overflow: auto; }
+  .workspace-stage { overflow: visible; }
+  .workspace-guide { overflow: visible; border-top: 1px solid rgba(143, 178, 255, .18); border-left: 0; }
+  .workspace-modal-brand { display: none; }
+  .workspace-modal-header { grid-template-columns: 1fr; padding-left: 20px; }
+  .lab-model-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .workspace-gallery { grid-template-columns: 1fr; }
+  .workspace-tile { min-height: 300px; }
+  .portmason-platform-layer { grid-template-columns: 1fr; }
+  .portmason-platform-layer > .portmason-platform-role {
+    grid-column: 1;
+    grid-row: auto;
+    place-items: start;
+    min-width: 0;
+    padding-right: 0;
+    border-right: 0;
+  }
+  .portmason-platform-layer h3,
+  .portmason-platform-layer p,
+  .portmason-platform-includes { grid-column: 1; }
+  .portmason-tool-head { grid-template-columns: 1fr; }
+  .lab-metrics,
+  .lab-proof-grid,
+  .site-size-result-grid { grid-template-columns: 1fr; }
+  .lab-api-form-row,
+  .site-size-form-row { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace-tile,
+  .workspace-tile::after { transition: none; }
+  .workspace-tile:hover,
+  .workspace-tile:focus-visible { transform: none; }
+}

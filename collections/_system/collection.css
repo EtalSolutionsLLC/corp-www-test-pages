@@ -1,0 +1,546 @@
+/* Shared Collection System: catalog profile */
+/* Shared catalog carousel stylesheet
+   ------------------------------------------------------------
+   Reusable carousel chrome for catalog-style components:
+   - floating circular previous/next controls
+   - Page X of Y status text
+   - expanding active page dots
+   - paged, three-card desktop carousel layout
+
+   Promotion- and brand-specific card styling remains in the catalog
+   stylesheets. This file owns the generic carousel navigation system.
+*/
+
+.catalog-carousel {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: calc(var(--header-height, 76px) + 12px);
+  overflow-anchor: none;
+  --carousel-control-size: clamp(54px, 5.2vw, 72px);
+  --carousel-control-offset: clamp(2px, 1.5vw, 18px);
+  --carousel-control-bg: rgba(255, 255, 255, 0.34);
+  --carousel-control-border: rgba(5, 12, 24, 0.13);
+  --carousel-control-ink: var(--catalog-blue, #123bff);
+  --carousel-control-shadow: 0 10px 28px rgba(5, 12, 24, 0.12);
+  --carousel-control-top: 50%;
+}
+
+/* Softer controls when a carousel is placed on a dark surface. */
+.section-dark .catalog-carousel,
+.site-footer .catalog-carousel,
+.on-dark .catalog-carousel,
+[data-theme="dark"] .catalog-carousel {
+  --carousel-control-bg: rgba(8, 15, 28, 0.34);
+  --carousel-control-border: rgba(255, 255, 255, 0.14);
+  --carousel-control-ink: #ffffff;
+  --carousel-control-shadow: 0 14px 34px rgba(0, 0, 0, 0.30);
+}
+
+.catalog-carousel-track,
+.catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-track {
+  display: flex;
+  gap: 0 !important;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overflow-anchor: none;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 8px;
+}
+
+.catalog-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.catalog-carousel-page {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  flex: 0 0 100%;
+  min-width: 100%;
+  padding: 0 max(18px, calc((100% - 1280px) / 2)) 8px;
+  overflow-anchor: none;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.catalog-carousel-slot {
+  display: flex;
+  min-width: 0;
+}
+
+.catalog-carousel-slot.is-empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.catalog-carousel-page .catalog-carousel-item,
+.catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-page .catalog-carousel-item {
+  flex: 1 1 auto !important;
+  width: 100%;
+  min-width: 0;
+  padding: 0 !important;
+  scroll-snap-align: none !important;
+}
+
+.catalog-carousel-page .catalog-item-panels,
+.catalog-carousel-page .catalog-panel-summary {
+  width: 100%;
+  height: 100%;
+}
+
+.catalog-carousel-instructions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 7px;
+  max-width: 1280px;
+  margin: 10px auto 0;
+  padding: 0 max(18px, calc((100% - 1280px) / 2));
+  color: rgba(9, 20, 39, 0.62);
+  font-size: 0.84rem;
+  font-weight: 800;
+  line-height: 1.2;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.catalog-carousel-instructions::before {
+  content: none !important;
+}
+
+.catalog-carousel-instructions .catalog-scroll-hint {
+  display: inline-flex;
+  grid-column: 2;
+  justify-self: center;
+  color: rgba(9, 20, 39, 0.62);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.catalog-carousel-instructions [data-collection-newer-slot],
+.catalog-carousel-instructions [data-collection-previous-slot] {
+  min-width: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.catalog-carousel-instructions .catalog-direction-link,
+.catalog-carousel-instructions .catalog-direction-empty {
+  max-width: 100%;
+  min-height: 22px;
+  color: rgba(9, 20, 39, 0.58);
+  font-size: 0.76rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catalog-carousel-control {
+  position: absolute;
+  top: var(--carousel-control-top, 50%);
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--carousel-control-size);
+  height: var(--carousel-control-size);
+  border: 1px solid var(--carousel-control-border);
+  border-radius: 999px;
+  background: var(--carousel-control-bg);
+  opacity: 0.86;
+  color: var(--carousel-control-ink);
+  box-shadow: var(--carousel-control-shadow);
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+  -webkit-backdrop-filter: blur(14px) saturate(1.16);
+  backdrop-filter: blur(14px) saturate(1.16);
+}
+
+.catalog-carousel-control svg {
+  display: block;
+  width: 42%;
+  height: 42%;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
+}
+
+.catalog-carousel-control-previous svg {
+  transform: translateX(-1px);
+}
+
+.catalog-carousel-control-next svg {
+  transform: translateX(1px);
+}
+
+.catalog-carousel-control-previous {
+  left: max(10px, calc((100% - 1390px) / 2));
+}
+
+.catalog-carousel-control-next {
+  right: max(10px, calc((100% - 1390px) / 2));
+}
+
+.catalog-carousel-control:hover,
+.catalog-carousel-control:focus-visible {
+  border-color: var(--catalog-blue, #123bff);
+  background: var(--catalog-blue, #123bff);
+  color: #ffffff;
+  box-shadow: 0 14px 38px rgba(18, 59, 255, 0.30);
+  opacity: 1;
+  transform: translateY(-50%) scale(1.04);
+  outline: none;
+}
+
+.catalog-carousel-control:focus-visible {
+  outline: 3px solid rgba(18, 59, 255, 0.25);
+  outline-offset: 4px;
+}
+
+.catalog-carousel-control[hidden],
+.catalog-carousel-control:disabled,
+.catalog-carousel.is-static-catalog .catalog-carousel-control {
+  display: none !important;
+}
+
+.catalog-position-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 28px;
+  margin: 8px auto 0;
+  padding: 0 18px;
+}
+
+.catalog-position-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(9, 20, 39, 0.22);
+  cursor: pointer;
+  transition: width 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.catalog-position-dot:hover,
+.catalog-position-dot:focus-visible {
+  background: rgba(18, 59, 255, 0.58);
+  outline: 2px solid rgba(18, 59, 255, 0.28);
+  outline-offset: 3px;
+}
+
+.catalog-position-dot.is-selected {
+  width: 30px;
+  background: linear-gradient(90deg, var(--catalog-blue, #123bff), var(--catalog-blue-2, #315cff));
+  box-shadow: 0 0 0 1px rgba(18, 59, 255, 0.12), 0 4px 14px rgba(18, 59, 255, 0.26);
+}
+
+.catalog-direction-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+[data-collection-nav][hidden],
+[data-collection-dots][hidden],
+.catalog-carousel.is-static-catalog [data-collection-nav],
+.catalog-carousel.is-static-catalog [data-collection-dots] {
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .catalog-carousel {
+    --carousel-control-size: 54px;
+    --carousel-control-offset: 8px;
+  }
+
+  .catalog-carousel-control-previous {
+    left: var(--carousel-control-offset);
+  }
+
+  .catalog-carousel-control-next {
+    right: var(--carousel-control-offset);
+  }
+}
+
+@media (max-width: 760px) {
+  .catalog-carousel {
+    --carousel-control-size: 48px;
+    --carousel-control-offset: 8px;
+  }
+
+  .catalog-carousel-page {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 18px 14px;
+  }
+
+  .catalog-carousel-slot.is-empty {
+    display: none;
+  }
+
+  .catalog-carousel-page .catalog-panel-summary,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-page .catalog-panel-summary {
+    min-height: auto;
+    margin: 0;
+  }
+
+  .catalog-carousel-control svg {
+    width: 44%;
+    height: 44%;
+  }
+
+  .catalog-carousel-instructions {
+    margin-top: 2px;
+    padding: 0 18px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .catalog-carousel-instructions .catalog-scroll-hint {
+    font-size: 0.74rem;
+  }
+
+  .catalog-carousel-instructions .catalog-direction-link,
+  .catalog-carousel-instructions .catalog-direction-empty {
+    font-size: 0.74rem;
+  }
+
+  .catalog-position-dots {
+    margin-top: 2px;
+  }
+}
+
+/* Mobile catalog stack
+   ------------------------------------------------------------
+   Desktop and tablet keep the paged carousel. On phone-width
+   screens, catalog sections become a normal vertical card stack with
+   a subtle sticky section header. */
+@media (max-width: 760px) {
+  .catalog-home-section .catalog-page-head {
+    position: sticky;
+    top: var(--header-h, var(--header-height, 76px));
+    z-index: 12;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 18px !important;
+    padding: 12px 18px 14px;
+    border-bottom: 1px solid rgba(9, 20, 39, 0.12);
+    background: #f7f7fa;
+    box-shadow: 0 10px 24px rgba(5, 12, 24, 0.07);
+  }
+
+  .section-dark.catalog-home-section .catalog-page-head,
+  .section-dark .catalog-home-section .catalog-page-head {
+    border-bottom-color: rgba(255, 255, 255, 0.16);
+    background:
+      linear-gradient(90deg, rgba(4,10,20,0.98) 0%, rgba(5,13,26,0.96) 58%, rgba(10,28,58,0.9) 100%),
+      #091427;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+  }
+
+  .catalog-home-section .catalog-page-head .section-kicker {
+    margin-bottom: 6px;
+  }
+
+  .catalog-home-section .catalog-page-head h2 {
+    margin-bottom: 6px;
+  }
+
+  .catalog-home-section .catalog-page-head p {
+    margin-top: 0;
+  }
+
+  .catalog-carousel-track,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-track {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px !important;
+    width: 100%;
+    overflow: visible !important;
+    padding: 0 18px 14px !important;
+    scroll-behavior: auto;
+    scroll-snap-type: none !important;
+  }
+
+  .catalog-carousel-page,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-page {
+    display: contents !important;
+    min-width: 0;
+    padding: 0 !important;
+    scroll-snap-align: none !important;
+  }
+
+  .catalog-carousel-slot,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-slot {
+    display: block;
+    min-width: 0;
+  }
+
+  .catalog-carousel-slot.is-empty {
+    display: none !important;
+  }
+
+  .catalog-carousel-item,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-carousel-item {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    flex: none !important;
+    padding: 0 !important;
+    scroll-snap-align: none !important;
+  }
+
+  .catalog-carousel .catalog-item-panels,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-item-panels {
+    display: block;
+    min-height: auto;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .catalog-carousel .catalog-panel-summary,
+  .catalog-carousel:not(.brand-catalog-carousel) .catalog-panel-summary {
+    min-height: auto !important;
+    margin: 0 !important;
+    border-right: 0 !important;
+  }
+
+  .catalog-carousel-control,
+  .catalog-carousel-instructions,
+  .catalog-position-dots {
+    display: none !important;
+  }
+}
+
+/* Library-free carousel refinement: preserve native horizontal scrolling while
+   making desktop keyboard navigation and touch intent clearer. */
+.catalog-carousel-track {
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: 18px;
+  touch-action: pan-x pan-y;
+}
+
+.catalog-carousel-track:focus-visible {
+  outline: 3px solid rgba(18, 59, 255, 0.24);
+  outline-offset: 5px;
+}
+
+.catalog-carousel-item,
+.catalog-panel-summary,
+.catalog-panel-detail {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.catalog-carousel-item:hover .catalog-panel-summary {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(16, 23, 34, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-carousel-item,
+  .catalog-panel-summary,
+  .catalog-panel-detail {
+    transition: none !important;
+  }
+}
+
+/* 2026-06-16 intentional refinement: catalog cards should not look like empty white boxes. */
+.catalog-page-head {
+  margin-bottom: clamp(16px, 2.4vw, 26px);
+}
+
+.catalog-page-head h2 {
+  text-wrap: balance;
+}
+
+.catalog-carousel-instructions {
+  margin-bottom: 12px;
+}
+
+.catalog-carousel-track {
+  padding-top: 4px;
+}
+
+.catalog-card,
+.catalog-panel {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.99), rgba(244,248,255,0.96));
+}
+
+.catalog-summary-brand-header {
+  min-height: 0;
+  margin-bottom: 14px;
+}
+
+.catalog-card h2,
+.catalog-panel-detail h3 {
+  text-wrap: balance;
+}
+
+/* Catalog typography contract
+   ------------------------------------------------------------
+   Shared catalog headings, introductions, and summary copy use one body
+   rhythm regardless of the collection theme. Collection-specific files own
+   color accents and surfaces; this layer owns readable copy spacing and scale. */
+.collection--catalog,
+.catalog-home-section {
+  --catalog-intro-font-size: clamp(0.98rem, 1.05vw, 1.05rem);
+  --catalog-summary-font-size: clamp(0.98rem, 1.05vw, 1.05rem);
+  --catalog-summary-gap: 0.7rem;
+  --catalog-card-body-ink: #4f5d70;
+}
+
+.catalog-page-head p {
+  font-family: inherit;
+  font-size: var(--catalog-intro-font-size);
+  font-weight: 400;
+  line-height: 1.48;
+  letter-spacing: normal;
+}
+
+.catalog-panel-summary .catalog-summary-content {
+  margin-top: var(--catalog-summary-gap);
+  color: var(--catalog-card-body-ink);
+  font-family: inherit;
+  font-size: var(--catalog-summary-font-size);
+  font-weight: 400;
+  line-height: 1.48;
+  letter-spacing: normal;
+}
+
+@media (max-width: 760px) {
+  .collection--catalog,
+  .catalog-home-section {
+    --catalog-intro-font-size: 0.96rem;
+    --catalog-summary-font-size: 0.96rem;
+    --catalog-summary-gap: 0.62rem;
+  }
+}

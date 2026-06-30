@@ -1,0 +1,75 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Et al Systems Lab API",
+    "version": "1.0.0",
+    "description": "Public capability, release, build, artifact, and deployment contracts consumed by the Et al corporate site."
+  },
+  "servers": [
+    {
+      "url": "https://www.etal.solutions"
+    }
+  ],
+  "paths": {
+    "/api/v1/health.json": {
+      "get": {
+        "summary": "Read static API health",
+        "responses": {
+          "200": {
+            "description": "Operational status"
+          }
+        }
+      }
+    },
+    "/api/v1/capabilities.json": {
+      "get": {
+        "summary": "List Et al capabilities",
+        "responses": {
+          "200": {
+            "description": "Capability registry"
+          }
+        }
+      }
+    },
+    "/build-info.json": {
+      "get": {
+        "summary": "Read served site build metadata",
+        "responses": {
+          "200": {
+            "description": "Build metadata"
+          }
+        }
+      }
+    },
+    "/api/openapi.json": {
+      "get": {
+        "summary": "Read this OpenAPI contract",
+        "responses": {
+          "200": {
+            "description": "OpenAPI document"
+          }
+        }
+      }
+    },
+    "/deploy-info.json": {
+      "get": {
+        "summary": "Read served deployment metadata",
+        "responses": {
+          "200": {
+            "description": "Deployment metadata"
+          }
+        }
+      }
+    },
+    "/artifact-manifest.json": {
+      "get": {
+        "summary": "Read served artifact manifest",
+        "responses": {
+          "200": {
+            "description": "Artifact manifest"
+          }
+        }
+      }
+    }
+  }
+}

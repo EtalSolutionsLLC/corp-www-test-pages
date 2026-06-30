@@ -1,0 +1,845 @@
+/*
+  004 Viewport Target Contract
+  Purpose: align selected visual targets to the live viewport bounded by the
+  fixed header and fixed footer.
+
+  Model:
+  - The header and footer define the visible slot.
+  - .pm-viewport-target owns vertical behavior and the background that fills
+    the live slot.
+  - .pm-viewport-target__inner preserves the normal header/container width
+    and is centered vertically when content is shorter than the slot.
+  - Longer targets keep their natural content height and scroll normally.
+  - Hash landing aligns to the bottom edge of the header, without guessing.
+*/
+
+:root {
+  --pm-header-height: var(--header-h, 84px);
+  --pm-footer-height: var(--footer-h, 56px);
+  --pm-scroll-clearance: var(--pm-header-height);
+  --pm-visible-panel-height: calc(100dvh - var(--pm-header-height) - var(--pm-footer-height));
+  --pm-viewport-block: clamp(16px, 2.1vw, 29px);
+  --pm-viewport-block-tight: clamp(12px, 1.6vw, 22px);
+  --pm-hero-block: clamp(13px, 1.9vw, 26px);
+  --pm-target-gap: clamp(18px, 2.8vw, 34px);
+  --pm-card-gap: clamp(14px, 2vw, 24px);
+  --pm-card-block: clamp(18px, 2.3vw, 28px);
+
+  /* Compatibility aliases for older component rules in this layer. */
+  --viewport-anchor-clearance: var(--pm-scroll-clearance);
+  --viewport-section-block: var(--pm-viewport-block);
+  --viewport-section-block-tight: var(--pm-viewport-block-tight);
+  --viewport-hero-block: var(--pm-hero-block);
+  --viewport-section-gap: var(--pm-target-gap);
+  --viewport-card-gap: var(--pm-card-gap);
+  --viewport-card-block: var(--pm-card-block);
+}
+
+html {
+  scroll-padding-top: var(--pm-scroll-clearance) !important;
+}
+
+.pm-scroll-target,
+.pm-viewport-target,
+.anchor-sentinel,
+.catalog-carousel,
+.catalog-list-item,
+.catalog-panel,
+[data-collection-item] {
+  scroll-margin-top: var(--pm-scroll-clearance) !important;
+}
+
+.pm-viewport-target,
+.pm-viewport-target:target,
+#lab.pm-viewport-target:target,
+body:not(:has(.pm-scroll-target:target)) #home.pm-viewport-target {
+  min-height: var(--pm-visible-panel-height) !important;
+  padding-top: var(--pm-viewport-block) !important;
+  padding-bottom: var(--pm-viewport-block) !important;
+  display: grid !important;
+  align-items: center !important;
+  justify-content: stretch !important;
+}
+
+#home.pm-viewport-target,
+#home.pm-viewport-target:target,
+body:not(:has(.pm-scroll-target:target)) #home.pm-viewport-target {
+  padding-top: var(--pm-hero-block) !important;
+  padding-bottom: var(--pm-hero-block) !important;
+}
+
+.pm-viewport-target > .pm-viewport-target__inner {
+  width: min(calc(100% - (var(--inner-gutter) * 2)), var(--inner-max)) !important;
+  max-width: var(--inner-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Explicit start-aligned targets must keep their leading edge below the live
+   header. This is used for content-rich panels such as the Systems Lab where
+   centering can hide the introduction and cause above-the-fold drift. */
+.pm-viewport-target[data-pm-viewport-align="start"],
+.pm-viewport-target[data-pm-viewport-align="start"]:target {
+  align-items: start !important;
+}
+
+#lab.pm-viewport-target[data-pm-viewport-align="start"],
+#lab.pm-viewport-target[data-pm-viewport-align="start"]:target {
+  padding-top: var(--pm-viewport-block-tight) !important;
+}
+
+.hero .container {
+  align-items: center !important;
+  gap: clamp(18px, 3.4vw, 46px) clamp(28px, 5.2vw, 72px) !important;
+}
+
+.hero-support {
+  padding-top: 0 !important;
+}
+
+.hero-actions,
+.hero-trust,
+.hero-motion-line,
+.home-quick-summary-launch {
+  margin-top: clamp(12px, 1.8vw, 20px) !important;
+}
+
+.hero h1 {
+  font-size: clamp(2.85rem, 4.8vw, 4.85rem) !important;
+}
+
+.catalog-hero-card {
+  padding: clamp(18px, 2.4vw, 26px) !important;
+}
+
+.catalog-hero-card p {
+  margin-top: 10px !important;
+}
+
+.catalog-hero-meta {
+  margin-top: 12px !important;
+  padding-block: 8px !important;
+}
+
+.catalog-hero-cta {
+  margin-top: 14px !important;
+}
+
+/* Visual rhythm: the contract owns vertical pacing; individual bands own personality. */
+.section-light,
+.thread-blog,
+.portmason-workspace,
+.catalog-home-section,
+.brand-catalog-section,
+.promotions-archive,
+.promotion-page-hero,
+.catalog-page {
+  padding-top: var(--pm-viewport-block) !important;
+  padding-bottom: var(--pm-viewport-block) !important;
+}
+
+#services,
+#lab,
+#brands,
+#promotions,
+#blog,
+#about,
+#contact {
+  padding-top: var(--pm-viewport-block) !important;
+  padding-bottom: var(--pm-viewport-block) !important;
+}
+
+.pm-viewport-target#services,
+.pm-viewport-target#lab,
+.pm-viewport-target#brands,
+.pm-viewport-target#promotions,
+.pm-viewport-target#blog,
+.pm-viewport-target#about,
+.pm-viewport-target#contact {
+  min-height: var(--pm-visible-panel-height) !important;
+}
+
+/*.services-band,
+.about-layout,
+.founder-band,
+.catalog-page-layout,
+.thread-blog-showcase,
+.portmason-workspace-layout {
+  gap: var(--pm-target-gap) !important;
+}*/
+
+.services-stack {
+  gap: clamp(16px, 2vw, 24px) !important;
+}
+
+.service-steps,
+.founder-principles,
+.catalog-vertical-list {
+  gap: var(--pm-card-gap) !important;
+}
+
+.step,
+.about-card,
+.contact-card,
+.thread-featured-post,
+.thread-post-card,
+.catalog-item-panels,
+.catalog-panel,
+.catalog-list-item,
+.catalog-list-item .catalog-item-panels,
+.brand-identity-item .brand-page-logo-card,
+.promotion-card,
+.promotion-page-card,
+.promotion-steps-card {
+  min-height: auto !important;
+}
+
+.step,
+.about-card,
+.contact-card {
+  padding: var(--pm-card-block) !important;
+}
+
+/* Systems Lab: live demonstrations size naturally inside the viewport target. */
+#lab.pm-viewport-target,
+#lab.pm-viewport-target:target {
+  transform: none !important;
+}
+
+.workspace-tile,
+.workspace-tool-panel,
+.lab-api-result,
+.lab-model-result,
+.site-size-result {
+  min-height: auto !important;
+}
+
+/* Explore: keep the guided idea, remove the dashboard/full-screen behavior. */
+#explore.pm-viewport-target,
+#explore.pm-viewport-target:target {
+  transform: none !important;
+}
+
+.explore-section-layout {
+  max-width: 1180px !important;
+}
+
+.explore-intro {
+  margin-bottom: clamp(14px, 2vw, 22px) !important;
+}
+
+.explore-tool-stack {
+  gap: clamp(16px, 2.4vw, 28px) !important;
+}
+
+.explore-tool,
+.explore-path-card,
+.explore-proof-strip,
+.site-size-compare,
+.explore-result,
+.choice-card,
+.explore-route-panel,
+.explore-next-step-card {
+  min-height: auto !important;
+}
+
+.explore-tool,
+.explore-path-card,
+.explore-proof-strip,
+.site-size-compare {
+  padding: clamp(16px, 2vw, 24px) !important;
+}
+
+.explore-thread {
+  margin: clamp(10px, 1.6vw, 16px) 0 !important;
+}
+
+.explore-thread::after,
+.explore-tool::before,
+.explore-performance-tool::before,
+.explore-tool-guided::before {
+  box-shadow: none !important;
+}
+
+.explore-thread li.is-current .explore-thread-node {
+  box-shadow: 0 0 0 4px rgba(7, 19, 38, 0.88) !important;
+}
+
+/* Catalogs: titles and first cards should enter quickly; cards should not reserve blank space. */
+.catalog-page-head,
+.brand-catalog-section.catalog-home-section .catalog-page-head {
+  margin-bottom: clamp(12px, 1.8vw, 22px) !important;
+}
+
+.catalog-carousel-instructions,
+.catalog-slide-nav {
+  margin-bottom: 8px !important;
+}
+
+.catalog-carousel-track {
+  padding-bottom: 6px !important;
+}
+
+.catalog-item-panels,
+.catalog-list-item .catalog-item-panels,
+.brand-catalog-section.catalog-home-section .catalog-item-panels {
+  min-height: auto !important;
+}
+
+.catalog-panel-summary,
+.catalog-panel-detail,
+.catalog-list-item .catalog-panel-summary,
+.catalog-list-item .catalog-panel-detail {
+  justify-content: flex-start !important;
+}
+
+.catalog-panel,
+.catalog-list-item .catalog-panel {
+  padding: clamp(18px, 2.2vw, 28px) !important;
+}
+
+.catalog-badge,
+.catalog-summary-brand-header,
+.brand-catalog-section.catalog-home-section .catalog-summary-brand-header {
+  min-height: auto !important;
+}
+
+.catalog-panel-summary h2,
+.catalog-panel-detail h3 {
+  margin-top: 0 !important;
+}
+
+/* Transformation Thread: keep editorial impact inside the target slot. */
+.thread-blog-showcase,
+.thread-blog-masthead {
+  min-height: auto !important;
+}
+
+.thread-blog-logo-wrap {
+  min-height: auto !important;
+  margin-bottom: 10px !important;
+}
+
+.thread-blog-title {
+  margin-bottom: 0.55rem !important;
+}
+
+.thread-blog-summary {
+  margin-top: 0.65rem !important;
+}
+
+.thread-post-layout {
+  gap: var(--pm-card-gap) !important;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --pm-viewport-block: clamp(14px, 3.5vw, 21px);
+    --pm-viewport-block-tight: clamp(11px, 3vw, 17px);
+    --pm-hero-block: clamp(12px, 3.5vw, 20px);
+  }
+
+  .pm-viewport-target,
+  .pm-viewport-target:target,
+  #explore.pm-viewport-target:target,
+  body:not(:has(.pm-scroll-target:target)) #home.pm-viewport-target {
+    min-height: var(--pm-visible-panel-height) !important;
+    padding-top: var(--pm-viewport-block) !important;
+    padding-bottom: var(--pm-viewport-block) !important;
+    display: grid !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+  }
+
+  #home.pm-viewport-target,
+  #home.pm-viewport-target:target,
+  body:not(:has(.pm-scroll-target:target)) #home.pm-viewport-target {
+    padding-top: var(--pm-hero-block) !important;
+    padding-bottom: var(--pm-hero-block) !important;
+  }
+
+  .services-stack,
+  .service-steps,
+  .catalog-panel,
+  .catalog-list-item .catalog-panel {
+    min-height: auto !important;
+  }
+
+  .catalog-carousel-item,
+  .catalog-panel {
+    scroll-margin-top: var(--pm-scroll-clearance) !important;
+  }
+}
+
+
+/* 008: JS-owned active nav state for controlled hash navigation. */
+body.has-js-active-nav .site-header .nav a:not([aria-current="page"]):not(:hover):not(:focus-visible) {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+body.has-js-active-nav .site-header .nav a:not([aria-current="page"]):not(:hover):not(:focus-visible)::after {
+  opacity: 0 !important;
+  transform: scaleX(0.5) !important;
+}
+
+.site-header .nav a[aria-current="page"] {
+  color: #b8cdff !important;
+}
+
+.site-header .nav a[aria-current="page"]::after {
+  opacity: 1 !important;
+  transform: scaleX(1) !important;
+}
+
+/* 011: home hero fold fit.
+   Keep the motion line and short-version affordance above the fixed footer by
+   letting the left support content sit under the headline instead of waiting
+   for the promotion card's row height. */
+@media (min-width: 900px) {
+  #home.pm-viewport-target > .pm-viewport-target__inner {
+    grid-template-areas:
+      "headline promotion"
+      "support promotion" !important;
+    grid-template-rows: auto auto !important;
+    align-content: center !important;
+    row-gap: clamp(14px, 1.8vw, 26px) !important;
+  }
+
+  #home .hero-support {
+    align-self: start !important;
+    max-width: min(820px, 100%) !important;
+  }
+
+  #home .catalog-hero-card {
+    align-self: center !important;
+    transform: translateY(clamp(8px, 1.2vw, 18px));
+  }
+
+  #home .hero-motion-line {
+    margin-top: clamp(9px, 1.2vw, 14px) !important;
+  }
+
+  #home .home-quick-summary-launch {
+    margin-top: clamp(7px, 0.95vw, 11px) !important;
+  }
+}
+
+/* 013: home hero composition refinement.
+   Keep the descriptive copy and actions under the headline, while the motion
+   line and short-version affordance sit below the featured promotion card. */
+.hero-motion-cluster {
+  grid-area: motion;
+}
+
+@media (min-width: 900px) {
+  #home.pm-viewport-target > .pm-viewport-target__inner {
+    grid-template-areas:
+      "headline promotion"
+      "support motion" !important;
+    grid-template-rows: auto auto !important;
+    align-content: center !important;
+    row-gap: clamp(8px, 1.25vw, 18px) !important;
+  }
+
+  #home .hero-support {
+    align-self: start !important;
+    max-width: min(900px, 100%) !important;
+  }
+
+  #home .catalog-hero-card {
+    align-self: center !important;
+    transform: none !important;
+  }
+
+  #home .hero-motion-cluster {
+    align-self: end !important;
+    justify-self: stretch !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #home .hero-motion-line {
+    margin: 0 !important;
+    font-size: clamp(1.42rem, 2.05vw, 1.95rem) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  #home .home-quick-summary-launch {
+    margin-top: clamp(6px, 0.85vw, 10px) !important;
+  }
+
+  #home .home-quick-summary-trigger {
+    font-size: clamp(0.98rem, 1.18vw, 1.12rem) !important;
+    line-height: 1.2 !important;
+  }
+}
+
+@media (max-width: 1120px) {
+  #home .hero .container,
+  #home.pm-viewport-target > .pm-viewport-target__inner {
+    grid-template-areas:
+      "headline"
+      "promotion"
+      "support"
+      "motion" !important;
+  }
+
+  #home .hero-motion-cluster {
+    max-width: 100% !important;
+  }
+}
+
+/* 014: home motion independence and kinetic-word stability.
+   Keep the motion line visually independent from the featured promotion.
+   The promotion remains the right-column offer, while the motion line and
+   short-version link return to the left narrative flow. Also reserve room for
+   the longest kinetic adjective so the line does not jump or wrap. */
+@media (min-width: 900px) {
+  #home.pm-viewport-target > .pm-viewport-target__inner {
+    grid-template-areas:
+      "headline promotion"
+      "support promotion"
+      "motion promotion" !important;
+    grid-template-rows: auto auto auto !important;
+    align-content: center !important;
+    row-gap: clamp(6px, 0.85vw, 13px) !important;
+  }
+
+  #home .catalog-hero-card {
+    grid-area: promotion !important;
+    align-self: center !important;
+    transform: none !important;
+  }
+
+  #home .hero-motion-cluster {
+    grid-area: motion !important;
+    align-self: start !important;
+    justify-self: start !important;
+    width: min(900px, 100%) !important;
+    max-width: min(900px, 100%) !important;
+    margin: clamp(1px, 0.35vw, 5px) 0 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #home .hero-motion-line {
+    display: block !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    font-size: clamp(1.48rem, 2.18vw, 2.08rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.025em !important;
+    min-height: 1.04em !important;
+  }
+
+  #home .hero-motion-line [data-kinetic-word] {
+    display: inline-block !important;
+    min-width: 12ch !important;
+    white-space: nowrap !important;
+    vertical-align: baseline !important;
+  }
+
+  #home .hero-motion-line [data-kinetic-word].is-changing {
+    transform: none !important;
+  }
+
+  #home .home-quick-summary-launch {
+    margin-top: clamp(4px, 0.65vw, 8px) !important;
+  }
+
+  #home .home-quick-summary-trigger {
+    font-size: clamp(0.96rem, 1.08vw, 1.08rem) !important;
+    line-height: 1.16 !important;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1120px) {
+  #home.pm-viewport-target > .pm-viewport-target__inner {
+    grid-template-areas:
+      "headline"
+      "promotion"
+      "support"
+      "motion" !important;
+  }
+
+  #home .hero-motion-cluster {
+    justify-self: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+
+/* 015: styling comments in red.
+   - Keep the Promotions heading on one line on desktop.
+   - Remove the decorative arrow from the 60-second summary trigger.
+   - Soften About cards and make their accent border more visible.
+   - Compact Brands catalog summary cards so the View details affordance stays above the fold. */
+@media (min-width: 980px) {
+  #promotions .catalog-page-head h2 {
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+    font-size: clamp(2rem, 2.85vw, 3.45rem) !important;
+    letter-spacing: -0.045em !important;
+  }
+}
+
+#home .home-quick-summary-trigger span[aria-hidden="true"] {
+  display: none !important;
+}
+
+#about .about-card {
+  padding: clamp(18px, 2vw, 22px) !important;
+  border: 1px solid rgba(143, 178, 255, 0.34) !important;
+  border-left: 5px solid rgba(18, 59, 255, 0.78) !important;
+  border-top: 1px solid rgba(143, 178, 255, 0.34) !important;
+  background:
+    linear-gradient(145deg, rgba(246, 249, 255, 0.92), rgba(229, 238, 255, 0.84)) !important;
+  box-shadow:
+    0 0 0 1px rgba(18, 59, 255, 0.06),
+    0 16px 38px rgba(0, 0, 0, 0.18) !important;
+}
+
+#about .about-card strong {
+  color: #071327 !important;
+}
+
+#about .about-card p {
+  color: rgba(7, 19, 39, 0.72) !important;
+}
+
+@media (min-width: 900px) {
+  #brands .catalog-panel,
+  #brands .catalog-list-item .catalog-panel {
+    padding: clamp(16px, 1.75vw, 22px) !important;
+  }
+
+  #brands .catalog-summary-brand-header {
+    margin-bottom: clamp(8px, 1vw, 12px) !important;
+  }
+
+  #brands .catalog-panel-summary h2 {
+    font-size: clamp(1.55rem, 2.35vw, 2.55rem) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.052em !important;
+  }
+
+  #brands .catalog-subtitle {
+    margin-top: 10px !important;
+  }
+
+  #brands .catalog-panel p:not(.catalog-subtitle) {
+    margin-top: 10px !important;
+    font-size: 0.94rem !important;
+    line-height: 1.38 !important;
+  }
+
+  #brands .catalog-tag-list {
+    gap: 6px !important;
+    margin-top: 12px !important;
+  }
+
+  #brands .catalog-tag-list li,
+  #brands .catalog-tag-list span {
+    min-height: 22px !important;
+    padding: 0 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  #brands .catalog-details-toggle {
+    margin-top: 14px !important;
+  }
+}
+
+/* 016: styling comments in red, batch 2.
+   - Remove oval/bordered details-link treatment.
+   - Compact Brands cards so CTAs stay above the footer/fold.
+   - Clip Explore child hover/selection overflow inside its material boundary. */
+.catalog-details-toggle,
+.catalog-details-toggle:hover,
+.catalog-details-toggle:focus-visible,
+#brands .catalog-details-toggle,
+#brands .catalog-details-toggle:hover,
+#brands .catalog-details-toggle:focus-visible,
+#promotions .catalog-details-toggle,
+#promotions .catalog-details-toggle:hover,
+#promotions .catalog-details-toggle:focus-visible {
+  min-height: auto !important;
+  padding: 2px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 5px !important;
+}
+
+.catalog-details-toggle:hover,
+.catalog-details-toggle:focus-visible,
+#brands .catalog-details-toggle:hover,
+#brands .catalog-details-toggle:focus-visible,
+#promotions .catalog-details-toggle:hover,
+#promotions .catalog-details-toggle:focus-visible {
+  transform: none !important;
+  text-decoration: underline !important;
+}
+
+@media (min-width: 900px) {
+  #brands.brand-catalog-section.catalog-home-section {
+    padding-top: clamp(10px, 1.5vh, 18px) !important;
+  }
+
+  #brands .catalog-page-head {
+    margin-bottom: clamp(6px, 0.9vh, 10px) !important;
+  }
+
+  #brands .catalog-page-head h2 {
+    font-size: clamp(1.85rem, 2.55vw, 2.55rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  #brands .catalog-page-head p {
+    margin-top: 0.65rem !important;
+    font-size: var(--catalog-intro-font-size) !important;
+    line-height: 1.48 !important;
+  }
+
+  #brands .catalog-carousel-page {
+    padding-bottom: 0 !important;
+  }
+
+  #brands .catalog-item-panels,
+  #brands .catalog-carousel-page .catalog-item-panels,
+  #brands .catalog-carousel-page .catalog-panel-summary {
+    min-height: clamp(330px, calc(100dvh - 365px), 420px) !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+
+  #brands .catalog-panel,
+  #brands .catalog-list-item .catalog-panel {
+    padding: clamp(12px, 1.25vw, 18px) !important;
+  }
+
+  #brands .catalog-panel-summary {
+    justify-content: flex-start !important;
+  }
+
+  #brands .catalog-summary-brand-header {
+    margin-bottom: 7px !important;
+  }
+
+  #brands .catalog-summary-logo {
+    max-height: 28px !important;
+    max-width: 112px !important;
+  }
+
+  #brands .catalog-badge {
+    margin-bottom: 0.45rem !important;
+    font-size: 0.56rem !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  #brands .catalog-panel-summary h2 {
+    font-size: clamp(1.42rem, 2vw, 2.18rem) !important;
+    line-height: 1.01 !important;
+    letter-spacing: -0.052em !important;
+  }
+
+  #brands .catalog-subtitle {
+    margin-top: 7px !important;
+    font-size: clamp(0.82rem, 0.92vw, 0.94rem) !important;
+    line-height: 1.24 !important;
+  }
+
+  #brands .catalog-panel p:not(.catalog-subtitle) {
+    margin-top: 7px !important;
+    font-size: 0.8rem !important;
+    line-height: 1.28 !important;
+  }
+
+  #brands .catalog-tag-list {
+    gap: 5px !important;
+    margin-top: 8px !important;
+  }
+
+  #brands .catalog-tag-list li,
+  #brands .catalog-tag-list span {
+    min-height: 18px !important;
+    padding: 0 7px !important;
+    font-size: 0.56rem !important;
+    letter-spacing: 0.035em !important;
+  }
+
+  #brands .catalog-details-toggle {
+    margin-top: 10px !important;
+    font-size: 0.82rem !important;
+  }
+}
+
+#explore .explore-tool,
+#explore .explore-path-card {
+  overflow: hidden !important;
+}
+
+/* 017: styling comments in red, batch 3.
+   - Brand summary-card accents now use the same electric-blue shade as
+     Promotions cards.
+   - The Explore decision card itself is the hard clipping boundary for
+     selected/hovered options so child treatments cannot spill below its
+     bottom border. */
+#brands .catalog-item-panels,
+#brands .catalog-carousel-item.is-featured .catalog-item-panels {
+  border-top-color: #2f6bff !important;
+}
+
+#brands .catalog-badge,
+#brands .catalog-details-toggle {
+  color: #2f6bff !important;
+  text-shadow: 0 0 14px rgba(18, 59, 255, 0.42) !important;
+}
+
+#brands .catalog-details-toggle:hover,
+#brands .catalog-details-toggle:focus-visible {
+  color: #123bff !important;
+  text-shadow: 0 0 18px rgba(18, 59, 255, 0.62) !important;
+}
+
+#explore .explore-question-body.explore-decision-card {
+  position: relative !important;
+  overflow: hidden !important;
+  contain: paint !important;
+  isolation: isolate !important;
+}
+
+#explore .explore-question-body.explore-decision-card .explore-options {
+  overflow: hidden !important;
+}
+
+
+/* 024: keep the kinetic punctuation attached to each replacement word.
+   The wrapper reserves the widest word without inserting space before the period. */
+@media (min-width: 900px) {
+  #home .hero-motion-line .hero-kinetic-token {
+    display: inline-block !important;
+    min-width: 12ch !important;
+    white-space: nowrap !important;
+    color: inherit !important;
+    text-shadow: none !important;
+    vertical-align: baseline !important;
+  }
+
+  #home .hero-motion-line [data-kinetic-word] {
+    min-width: 0 !important;
+  }
+
+  #home .hero-motion-line .hero-kinetic-period {
+    display: inline !important;
+    color: inherit !important;
+    text-shadow: none !important;
+  }
+}

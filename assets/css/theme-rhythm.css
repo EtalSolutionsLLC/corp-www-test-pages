@@ -1,0 +1,98 @@
+/* 001 stable SPA theme rhythm layer
+   ------------------------------------------------------------
+   Loaded after generated catalog styles. It owns visible band alternation
+   and protects the Brands light band from legacy generated dark rules. */
+:root {
+  --corp-light-band: #f7f7fa;
+  --corp-dark-band:
+    linear-gradient(90deg, rgba(4,10,20,0.98) 0%, rgba(5,13,26,0.94) 58%, rgba(10,28,58,0.80) 100%),
+    linear-gradient(180deg, #091427 0%, #07111f 100%);
+}
+
+#home[data-theme="dark"],
+#lab[data-theme="dark"],
+#promotions[data-theme="dark"],
+#about[data-theme="dark"] {
+  color: #ffffff;
+}
+
+#services[data-theme="light"],
+#brands[data-theme="light"],
+#blog[data-theme="light"],
+#contact[data-theme="light"] {
+  background: var(--corp-light-band);
+  color: #091427;
+}
+
+/* Durable visible Brands correction: Lab -> Brands -> Promotions
+   must render dark -> light -> dark. */
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(18,59,255,0.055), transparent 0 24%),
+    linear-gradient(180deg, #f8f9fc 0%, #f2f5fb 100%) !important;
+  color: #091427 !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"]::before {
+  display: none !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-page-head h2,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-panel-summary h2,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-panel-detail h3,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-attribute strong {
+  color: #091427 !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-page-head p,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-panel p:not(.catalog-subtitle),
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-subtitle,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-description p,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-attribute p {
+  color: rgba(9,20,39,0.72) !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .section-kicker,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .section-kicker.light,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-direction-link strong {
+  color: #123bff !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-item-panels,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-carousel-item.is-featured .catalog-item-panels {
+  border-color: rgba(18,59,255,0.16) !important;
+  border-top-color: #123bff !important;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.99), rgba(239,244,255,0.95)),
+    #ffffff !important;
+  box-shadow:
+    0 0 0 1px rgba(18,59,255,0.06),
+    0 16px 42px rgba(16,23,34,0.10) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-panel-summary {
+  border-right-color: rgba(18,59,255,0.12) !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-tag-list li,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-tag-list span {
+  border-color: rgba(18,59,255,0.18) !important;
+  background: rgba(18,59,255,0.06) !important;
+  color: rgba(9,20,39,0.82) !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-carousel-instructions,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-scroll-hint,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-direction-empty,
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-direction-link {
+  color: rgba(9,20,39,0.66) !important;
+}
+
+html body #brands.brand-catalog-section.catalog-home-section.section-light[data-theme="light"] .catalog-carousel-item.is-selected .catalog-item-panels {
+  border-color: rgba(18,59,255,0.58) !important;
+  box-shadow:
+    0 0 0 2px rgba(18,59,255,0.10),
+    0 18px 44px rgba(16,23,34,0.12) !important;
+}

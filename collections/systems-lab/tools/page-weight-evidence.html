@@ -1,0 +1,63 @@
+<article class="portmason-tool">
+  <header class="portmason-tool-head">
+    <div>
+      <span class="portmason-tool-kicker">Live systems lab · Performance evidence</span>
+      <h3>Built to stay light—and measured.</h3>
+    </div>
+    <span class="lab-contract-badge">Live browser data</span>
+  </header>
+  <p>This is what the browser can observe being transferred now, plus an optional Google PageSpeed comparison of page weight and visual-load duration against another public homepage.</p>
+  <dl class="performance-proof-grid lab-proof-grid" aria-label="What your browser downloaded when this page opened" data-performance-proof>
+    <div><dt>Data downloaded</dt><dd data-performance-transfer>Measuring…</dd></div>
+    <div><dt>JavaScript downloaded</dt><dd data-performance-js>Measuring…</dd></div>
+    <div><dt>Files loaded</dt><dd data-performance-resources>Measuring…</dd></div>
+  </dl>
+
+  <section class="site-size-compare" aria-labelledby="site-size-compare-title" data-site-size-compare data-site-size-self-url="https://www.etal.solutions/" data-site-size-config-url="config.generated.json">
+    <div class="site-size-compare-intro">
+      <span class="lab-panel-label">Compare your homepage</span>
+      <h4 id="site-size-compare-title">Run the same desktop page-weight and visual-load check side by side.</h4>
+      <p>Enter a public homepage address. Nothing is stored by this site.</p>
+    </div>
+    <form class="site-size-form" data-site-size-form>
+      <label for="site-size-url">Homepage address</label>
+      <div class="site-size-form-row">
+        <input id="site-size-url" name="url" type="text" inputmode="url" autocomplete="url" placeholder="your-site.com" required data-site-size-url>
+        <button class="action action-primary" type="submit" data-site-size-submit>Check both pages <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+    <p class="site-size-status" aria-live="polite" data-site-size-status></p>
+    <section class="site-size-result" aria-live="polite" data-site-size-result hidden>
+      <span class="lab-panel-label">Two-page comparison</span>
+      <h4>Google PageSpeed checked both homepages using the same desktop test.</h4>
+      <dl class="site-size-result-grid">
+        <div>
+          <dt>Your homepage</dt>
+          <dd>
+            <span data-site-size-theirs>—</span>
+            <small>Visual load <strong data-site-speed-theirs>—</strong></small>
+          </dd>
+        </div>
+        <div>
+          <dt>This homepage</dt>
+          <dd>
+            <span data-site-size-ours>—</span>
+            <small>Visual load <strong data-site-speed-ours>—</strong></small>
+          </dd>
+        </div>
+        <div>
+          <dt>Typical desktop homepage</dt>
+          <dd>
+            <span>2.86 MB</span>
+            <small>Page-weight benchmark</small>
+          </dd>
+        </div>
+      </dl>
+      <p class="site-size-result-summary" data-site-size-summary></p>
+      <p class="site-size-result-summary" data-site-speed-summary></p>
+      <p class="site-size-result-context" data-site-size-context></p>
+      <p class="site-size-result-note">Visual load is Lighthouse Speed Index: how quickly visible content appears during the test. It is not a stopwatch measurement of every background request. Results can vary as content changes.</p>
+      <p class="site-size-result-source">Typical-homepage benchmark: <a href="https://almanac.httparchive.org/en/2025/page-weight" target="_blank" rel="noopener noreferrer">HTTP Archive, 2025 Web Almanac</a>.</p>
+    </section>
+  </section>
+</article>
