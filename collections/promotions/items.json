@@ -1,9 +1,52 @@
 [
   {
+    "id": "reviewnudge-founding-25",
+    "slug": "reviewnudge-founding-25",
+    "status": "featured",
+    "label": "Featured Product Launch",
+    "title": "ReviewNudge",
+    "shortTitle": "ReviewNudge",
+    "subtitle": "A simple, organized way to request customer reviews.",
+    "audience": "Small service businesses and owner-led teams",
+    "summary": "ReviewNudge gives you one focused workspace to add customers and send a thoughtful review request, then we'll manage the follow-up and give you complete visibility along the way.",
+    "price": "$9.95",
+    "priceNote": "Founding 25 monthly rate",
+    "primaryAction": {
+      "label": "Start the Free Trial",
+      "href": "https://reviewnudge.etal.solutions/setup",
+      "openInNewTab": true
+    },
+    "tags": [
+      "7-day free trial",
+      "No card required",
+      "One follow-up",
+      "Built on Portmason™"
+    ],
+    "attributes": [
+      {
+        "title": "Simple review flow",
+        "body": "Add the customer when the work is done, send the first request, and let ReviewNudge handle one follow-up."
+      },
+      {
+        "title": "Visible history",
+        "body": "Keep customer status, message history, and review progress in one place."
+      },
+      {
+        "title": "Founding 25",
+        "body": "The first 25 active subscribers pay $9.95 per month while the subscription remains active."
+      },
+      {
+        "title": "Standard rate",
+        "body": "$24.95 per month after the first 25."
+      }
+    ],
+    "sortOrder": 1
+  },
+  {
     "id": "workflow-friction-review",
     "slug": "workflow-friction-review",
-    "status": "featured",
-    "label": "Featured Offer Becki_this_one's_for_you",
+    "status": "active",
+    "label": "Available Offer",
     "title": "Workflow Friction Review",
     "shortTitle": "Workflow Friction Review",
     "subtitle": "Find the repetitive work worth simplifying before adding another tool.",

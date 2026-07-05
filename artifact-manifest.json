@@ -1,7 +1,19 @@
 {
   "algorithm": "sha256",
-  "artifactSha256": "fa7d084be9575aef23e41fd9cff3f19a289ae2b3d6131df4d0b85d1bc9230763",
+  "artifactSha256": "b0953c30e308a365e64d40e270bca8d5e04818d8c6d7d0b5fdef1905ea4d2f09",
   "files": [
+    {
+      "mode": "0644",
+      "path": "039-corp-www-production-mirror.tar.gz",
+      "sha256": "ca437c761f1f76a65833b9fc32b35d87b8f9742c8c1524fb76d0f820fe26671e",
+      "size": 5047
+    },
+    {
+      "mode": "0644",
+      "path": "039-corp-www-reviewnudge-promotion.tar.gz",
+      "sha256": "c28528451637c0abd4f218e9b19b61e8feff1c02d06cf275f3ad7318ad29bb0b",
+      "size": 2996
+    },
     {
       "mode": "0644",
       "path": "404.html",
@@ -215,14 +227,14 @@
     {
       "mode": "0644",
       "path": "collections/promotions/collection.json",
-      "sha256": "c3c23d6ae170ec475d9dc12f17c560305c63a2718a3569e29748a41cc5142a86",
-      "size": 998
+      "sha256": "f7f54d5cc98b2bee2826f2149ac8db4782a842cbf4c0b8f6ba92aa4348714e26",
+      "size": 997
     },
     {
       "mode": "0644",
       "path": "collections/promotions/items.json",
-      "sha256": "a94a6eb169ad82788b4ab9adf665d74172bb9495d2b1b653312c6ad707d7b605",
-      "size": 6324
+      "sha256": "5618e2e5a22199dd882add8f78ac418ca4395cd9d758332bf021fe64b525993d",
+      "size": 7823
     },
     {
       "mode": "0644",
@@ -599,8 +611,8 @@
     {
       "mode": "0644",
       "path": "index.html",
-      "sha256": "978db8c9e86e4a4173a7146c308b7fcc2618f980ecc8a0ce96747660a06125c9",
-      "size": 70963
+      "sha256": "09b0a77de28220f91a9846356caefc56fc65c2edff6690cf1a32e80eeb69ce85",
+      "size": 73892
     },
     {
       "mode": "0644",

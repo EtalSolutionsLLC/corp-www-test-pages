@@ -5,7 +5,7 @@
   "dataFile": "items.json",
   "styleFile": "styles.css",
   "sectionHref": "/#promotions",
-  "defaultItem": "workflow-friction-review",
+  "defaultItem": "reviewnudge-founding-25",
   "labels": {
     "itemFallback": "Promotion",
     "heroCta": "View Details",
