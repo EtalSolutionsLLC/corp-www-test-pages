@@ -290,6 +290,7 @@
 
     var endpoint = "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed";
     var medianDesktopBytes = 2.86 * 1024 * 1024;
+    var standardBytesPerSecond = 125000000;
     var selfUrl = root.getAttribute("data-site-size-self-url") || "https://www.etal.solutions/";
     var configUrl = root.getAttribute("data-site-size-config-url") || "config.generated.json";
     var form = qs("[data-site-size-form]", root);
@@ -347,14 +348,24 @@
       if (theirBytes > ourBytes) return "Your homepage downloaded about " + formatMultiplier(theirBytes / ourBytes) + " more data than this homepage in the same PageSpeed desktop test.";
       return "Your homepage downloaded about " + formatMultiplier(ourBytes / theirBytes) + " less data than this homepage in the same PageSpeed desktop test.";
     }
-    function describeVisualLoad(theirMilliseconds, ourMilliseconds) {
-      var difference = Math.abs(theirMilliseconds - ourMilliseconds);
-      var comparison = difference < 100
+    function describeVisualLoad(theirMeasurement, ourMeasurement) {
+      var theirSeconds = theirMeasurement.bytes / standardBytesPerSecond;
+      var ourSeconds = ourMeasurement.bytes / standardBytesPerSecond;
+
+      var difference = Math.abs(theirSeconds - ourSeconds);
+
+      var comparison = difference < 0.01
         ? "The two results were effectively the same."
-        : (theirMilliseconds > ourMilliseconds
-          ? "Your homepage took " + formatSeconds(difference) + " longer."
-          : "Your homepage was " + formatSeconds(difference) + " faster.");
-      return "Visual load: your homepage " + formatSeconds(theirMilliseconds) + "; this homepage " + formatSeconds(ourMilliseconds) + ". " + comparison;
+        : (theirSeconds > ourSeconds
+          ? "Your homepage would take about " + Math.round(difference*1000) + " milliseconds longer."
+          : "Your homepage would be about " + Math.round(difference*1000) + " milliseconds faster.");
+
+      return "Estimated download time: your homepage "
+        + Math.round(theirSeconds*1000)
+        + " ms; this homepage "
+        + Math.round(ourSeconds*1000)
+        + " ms.\n"
+        + comparison;
     }
     function describeComparedToMedian(theirBytes) {
       if (Math.abs(theirBytes - medianDesktopBytes) < 0.05 * medianDesktopBytes) return "For context, that is close to the typical desktop homepage: about 2.86 MB.";
@@ -375,7 +386,7 @@
           return response.json();
         }).then(function (config) {
           var apiKey = extractApiKey(config);
-          if (!apiKey) throw new Error("The PageSpeed comparison is not configured yet. Run pm-setup after adding PAGESPEED_APIKEY.");
+          if (!apiKey) throw new Error("The PageSpeed comparison is not configured yet. pm-setup after adding PAGESPEED_APIKEY.");
           return apiKey;
         });
       });
@@ -420,11 +431,22 @@
     function showResult(theirMeasurement, ourMeasurement) {
       text(theirs, formatBytes(theirMeasurement.bytes));
       text(ours, formatBytes(ourMeasurement.bytes));
-      text(theirSpeed, formatSeconds(theirMeasurement.speedIndexMilliseconds));
-      text(ourSpeed, formatSeconds(ourMeasurement.speedIndexMilliseconds));
+
+
+      if (theirSpeed && theirSpeed.closest("small")) {
+        theirSpeed.closest("small").style.display = "none";
+      }
+
+      if (ourSpeed && ourSpeed.closest("small")) {
+        ourSpeed.closest("small").style.display = "none";
+      }
+
+/*      text(theirSpeed, formatSeconds(theirMeasurement.speedIndexMilliseconds));
+      text(ourSpeed, formatSeconds(ourMeasurement.speedIndexMilliseconds)); */
+
       text(summary, describeComparedToOurs(theirMeasurement.bytes, ourMeasurement.bytes));
-      text(speedSummary, describeVisualLoad(theirMeasurement.speedIndexMilliseconds, ourMeasurement.speedIndexMilliseconds));
       text(context, describeComparedToMedian(theirMeasurement.bytes));
+      text(speedSummary, describeVisualLoad(theirMeasurement, ourMeasurement));
       text(status, "Done. Both homepages were checked with the same desktop test.");
       if (result) result.hidden = false;
     }

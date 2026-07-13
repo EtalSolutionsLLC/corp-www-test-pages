@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256",
-  "artifactSha256": "b0953c30e308a365e64d40e270bca8d5e04818d8c6d7d0b5fdef1905ea4d2f09",
+  "artifactSha256": "259ea3aab72469e20f4d7e8625c9b0e70be2e0efd56056d7b2d5de3cc94502d9",
   "files": [
     {
       "mode": "0644",
@@ -257,8 +257,8 @@
     {
       "mode": "0644",
       "path": "collections/systems-lab/styles.css",
-      "sha256": "8d5bb9f1bd3d29264e8679cf85813b1ec96462bdd008ba3875cd40f37c64af5a",
-      "size": 26820
+      "sha256": "8fdef8981e03e600bd541485685a44decde7706b5035f452d66aba98c8bc52b2",
+      "size": 26892
     },
     {
       "mode": "0644",
@@ -287,8 +287,8 @@
     {
       "mode": "0644",
       "path": "collections/systems-lab/workspace.js",
-      "sha256": "5e7be730e60748bfada9cd2f489cd69f88ce8d78ce2d9f704da4d13caeb29749",
-      "size": 24141
+      "sha256": "40fbb5cf0d4eb1a4048cb2f2014e377259bbfed11a53034b41bcf9fe0ae4cbb8",
+      "size": 24617
     },
     {
       "mode": "0644",
@@ -611,8 +611,8 @@
     {
       "mode": "0644",
       "path": "index.html",
-      "sha256": "09b0a77de28220f91a9846356caefc56fc65c2edff6690cf1a32e80eeb69ce85",
-      "size": 73892
+      "sha256": "5bb50f881cdacbde4dfb4267d19139ecbcbc0e6b28986ed5c036b788dd5b334b",
+      "size": 73726
     },
     {
       "mode": "0644",

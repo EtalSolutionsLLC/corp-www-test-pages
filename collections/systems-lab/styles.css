@@ -1,3 +1,7 @@
+.site-size-result-summary {
+  white-space: pre-line;
+}
+
 /* Portmason Platform™ Systems Lab — branded workspace instance. */
 .portmason-workspace {
   position: relative;
@@ -325,6 +329,7 @@
 .workspace-thumbnail--performance::before {
   inset: auto 12% 25% 12%;
   height: 50px;
+  opacity: .25;
   background:
     linear-gradient(to top, #123bff 0 58%, transparent 58%) 0 100% / 17% 100% no-repeat,
     linear-gradient(to top, #3266ff 0 82%, transparent 82%) 27% 100% / 17% 100% no-repeat,
