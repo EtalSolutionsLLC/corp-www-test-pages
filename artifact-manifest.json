@@ -1,6 +1,6 @@
 {
   "algorithm": "sha256",
-  "artifactSha256": "259ea3aab72469e20f4d7e8625c9b0e70be2e0efd56056d7b2d5de3cc94502d9",
+  "artifactSha256": "5eb85e16149d44616caeaa55b38e97a3df7e183859be365a5ec23a5c1530a993",
   "files": [
     {
       "mode": "0644",
@@ -587,6 +587,30 @@
     {
       "mode": "0644",
       "path": "collections/transformation-thread/items/012/title.md",
+      "sha256": "3fe3b2c14be5122afa7a7c792b6dd15cbc1d2d3780d6eebba07110963c90175b",
+      "size": 90
+    },
+    {
+      "mode": "0644",
+      "path": "collections/transformation-thread/items/013/excerpt.md",
+      "sha256": "5b36babe3c25492624ede4d3fdba9ea7f99ec629b0e30cca2819fd908fe76ead",
+      "size": 92
+    },
+    {
+      "mode": "0644",
+      "path": "collections/transformation-thread/items/013/full-article.md",
+      "sha256": "365e8f6b3ec4c3ba8f7df6fb26fe3084e6c200c1fcf70170714d4a54087caf2a",
+      "size": 3809
+    },
+    {
+      "mode": "0644",
+      "path": "collections/transformation-thread/items/013/meta.json",
+      "sha256": "93c58f98354b96b97040dcbf9b8e51b2a3a1dac06201cd28727fcdf650e52a75",
+      "size": 133
+    },
+    {
+      "mode": "0644",
+      "path": "collections/transformation-thread/items/013/title.md",
       "sha256": "3fe3b2c14be5122afa7a7c792b6dd15cbc1d2d3780d6eebba07110963c90175b",
       "size": 90
     },

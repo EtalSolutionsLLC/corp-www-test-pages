@@ -1,0 +1,1 @@
+The advantage will come from how thoughtfully it's integrated into everyday decision-making.
